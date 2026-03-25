@@ -62,7 +62,7 @@ const Loginform = ({ onLogin }) => {
       if (response.ok || data.success) {
         if (mode === 'login') {
           localStorage.setItem('accessToken', data.accessToken);
-          onLogin(data.user);
+          onLogin(data.admin || data.user);
         } else if (mode === 'forgot') {
           // In development, we get the token directly
           if (data.resetToken) {
