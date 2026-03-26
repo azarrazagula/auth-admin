@@ -194,7 +194,7 @@ const SuperAdminLogin = ({ onLogin }) => {
             <div className="sa-form-group">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <label>Password</label>
-                <a href="#" onClick={(e) => { e.preventDefault(); setView('forgotPassword'); setError(''); setSuccessMsg(''); }} style={{ fontSize: '0.8rem', color: '#6366f1', textDecoration: 'none' }}>Forgot Password?</a>
+                <button type="button" onClick={() => { setView('forgotPassword'); setError(''); setSuccessMsg(''); }} style={{ fontSize: '0.8rem', color: '#6366f1', textDecoration: 'none', background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit' }}>Forgot Password?</button>
               </div>
               <input
                 type="password"
