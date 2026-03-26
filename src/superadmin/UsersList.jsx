@@ -65,8 +65,10 @@ const UsersList = () => {
               <tr key={user._id}>
                 <td>{user.firstName} {user.lastName}</td>
                 <td>{user.email}</td>
-                <td>{user.phoneNumber || 'N/A'}</td>
-                <td>{user.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : 'N/A'}</td>
+                <td>{user.phoneNumber || user.phonenumber || 'N/A'}</td>
+                <td>{user.dateOfBirth || user['Date-Of-Birth'] ? (
+                  new Date(user.dateOfBirth || user['Date-Of-Birth']).toLocaleDateString()
+                ) : 'N/A'}</td>
                 <td><span className="sa-badge sa-badge-user">User</span></td>
                 <td>
                   <span className={`sa-badge ${user.isVerified ? 'sa-badge-success' : 'sa-badge-danger'}`}>

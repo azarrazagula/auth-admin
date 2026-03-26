@@ -191,8 +191,10 @@ const Users = ({ onLogout, user }) => {
                         <tr key={user._id}>
                           <td>{user.firstName} {user.lastName}</td>
                           <td>{user.email}</td>
-                          <td>{user.phoneNumber || 'N/A'}</td>
-                          <td>{user.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : 'N/A'}</td>
+                          <td>{user.phoneNumber || user.phonenumber || 'N/A'}</td>
+                          <td>{user.dateOfBirth || user['Date-Of-Birth'] ? (
+                            new Date(user.dateOfBirth || user['Date-Of-Birth']).toLocaleDateString()
+                          ) : 'N/A'}</td>
                           <td>{user.age || 'N/A'}</td>
                           <td>
                             <span className={`role-badge ${user.role}`}>
