@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Users.css';
 import Modal from '../components/Modal';
 import FoodList from './FoodList';
+import API_BASE_URL from '../config';
 
 const Users = ({ onLogout, user }) => {
   const [users, setUsers] = useState([]);
@@ -16,7 +17,8 @@ const Users = ({ onLogout, user }) => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5001/api/admin/users');
+      const apiBase = API_BASE_URL;
+      const response = await fetch(`${apiBase}/api/admin/users`);
       const data = await response.json();
       if (data.success) {
         // Filter out everyone except regular users
@@ -50,7 +52,8 @@ const Users = ({ onLogout, user }) => {
   const handleDeleteUser = async (id) => {
     try {
       setIsDeleting(true);
-      const response = await fetch(`http://localhost:5001/api/admin/users/${id}`, {
+      const apiBase = API_BASE_URL;
+      const response = await fetch(`${apiBase}/api/admin/users/${id}`, {
         method: 'DELETE',
       });
       const data = await response.json();
@@ -70,7 +73,8 @@ const Users = ({ onLogout, user }) => {
   const handleDeleteAllUsers = async () => {
     try {
       setIsDeleting(true);
-      const response = await fetch('http://localhost:5001/api/admin/users', {
+      const apiBase = API_BASE_URL;
+      const response = await fetch(`${apiBase}/api/admin/users`, {
         method: 'DELETE',
       });
       const data = await response.json();

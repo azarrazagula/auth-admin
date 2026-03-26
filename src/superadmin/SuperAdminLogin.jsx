@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './SuperAdmin.css';
+import API_BASE_URL from '../config';
 
 const SuperAdminLogin = ({ onLogin }) => {
   const [view, setView] = useState('login');
@@ -28,7 +29,8 @@ const SuperAdminLogin = ({ onLogin }) => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5001/api/superadmin/login', {
+      const apiBase = API_BASE_URL;
+      const response = await fetch(`${apiBase}/api/superadmin/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -58,7 +60,8 @@ const SuperAdminLogin = ({ onLogin }) => {
     setSuccessMsg('');
 
     try {
-      const response = await fetch('http://localhost:5001/api/superadmin/forgot-password', {
+      const apiBase = API_BASE_URL;
+      const response = await fetch(`${apiBase}/api/superadmin/forgot-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +95,8 @@ const SuperAdminLogin = ({ onLogin }) => {
     setSuccessMsg('');
 
     try {
-      const response = await fetch(`http://localhost:5001/api/superadmin/reset-password/${resetToken}`, {
+      const apiBase = API_BASE_URL;
+      const response = await fetch(`${apiBase}/api/superadmin/reset-password/${resetToken}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

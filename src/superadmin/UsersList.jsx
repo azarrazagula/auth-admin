@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './SuperAdmin.css';
+import API_BASE_URL from '../config';
 
 const UsersList = () => {
   const [users, setUsers] = useState([]);
@@ -9,7 +10,8 @@ const UsersList = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5001/api/superadmin/users', {
+      const apiBase = API_BASE_URL;
+      const response = await fetch(`${apiBase}/api/superadmin/users`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('sa_accessToken')}`
         }

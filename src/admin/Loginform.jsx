@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Loginform.css';
+import API_BASE_URL from '../config';
 
 const Loginform = ({ onLogin }) => {
   const [mode, setMode] = useState('login'); // 'login', 'forgot', 'reset'
@@ -28,14 +29,15 @@ const Loginform = ({ onLogin }) => {
     setMessage('');
 
     let url = '';
+    const apiBase = API_BASE_URL;
     let method = 'POST';
     let body = {};
 
     if (mode === 'login') {
-      url = 'http://localhost:5001/api/admin/login';
+      url = `${apiBase}/api/admin/login`;
       body = { email, password };
     } else if (mode === 'forgot') {
-      url = 'http://localhost:5001/api/admin/forgot-password';
+      url = `${apiBase}/api/admin/forgot-password`;
       body = { email };
     } else if (mode === 'reset') {
       if (!resetToken) {
@@ -43,7 +45,7 @@ const Loginform = ({ onLogin }) => {
         setLoading(false);
         return;
       }
-      url = `http://localhost:5001/api/admin/reset-password/${resetToken}`;
+      url = `${apiBase}/api/admin/reset-password/${resetToken}`;
       method = 'PUT';
       body = { password }; // Backend only needs the new password
     }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from '../components/Modal';
+import API_BASE_URL from '../config';
 
 const FoodList = () => {
   const [foods, setFoods] = useState([]);
@@ -16,7 +17,8 @@ const FoodList = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('sa_accessToken') || localStorage.getItem('accessToken');
-      const response = await fetch('http://localhost:5001/api/admin/food', {
+      const apiBase = API_BASE_URL;
+      const response = await fetch(`${apiBase}/api/admin/food`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -54,7 +56,8 @@ const FoodList = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('sa_accessToken') || localStorage.getItem('accessToken');
-      const response = await fetch('http://localhost:5001/api/admin/food', {
+      const apiBase = API_BASE_URL;
+      const response = await fetch(`${apiBase}/api/admin/food`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -86,7 +89,8 @@ const FoodList = () => {
     try {
       setIsDeleting(true);
       const token = localStorage.getItem('sa_accessToken') || localStorage.getItem('accessToken');
-      const response = await fetch(`http://localhost:5001/api/admin/food/${selectedId}`, {
+      const apiBase = API_BASE_URL;
+      const response = await fetch(`${apiBase}/api/admin/food/${selectedId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

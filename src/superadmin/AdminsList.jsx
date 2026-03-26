@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './SuperAdmin.css';
 import Modal from '../components/Modal';
+import API_BASE_URL from '../config';
 
 const AdminsList = () => {
   const [admins, setAdmins] = useState([]);
@@ -16,7 +17,8 @@ const AdminsList = () => {
     try {
       setLoading(true);
       console.log('Fetching admins...');
-      const response = await fetch('http://localhost:5001/api/superadmin/admins', {
+      const apiBase = API_BASE_URL;
+      const response = await fetch(`${apiBase}/api/superadmin/admins`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('sa_accessToken')}`
         }
@@ -49,9 +51,10 @@ const AdminsList = () => {
       const nameParts = newAdmin.name.trim().split(' ');
       const firstName = nameParts[0];
       const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : 'User';
+      const apiBase = API_BASE_URL;
 
       console.log('Creating admin with body:', JSON.stringify({ firstName, lastName, email: newAdmin.email, password: newAdmin.password }));
-      const response = await fetch('http://localhost:5001/api/superadmin/admins', {
+      const response = await fetch(`${apiBase}/api/superadmin/admins`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -90,7 +93,8 @@ const AdminsList = () => {
   const handleDeleteAdmin = async () => {
     try {
       setIsDeleting(true);
-      const response = await fetch(`http://localhost:5001/api/superadmin/admins/${selectedId}`, {
+      const apiBase = API_BASE_URL;
+      const response = await fetch(`${apiBase}/api/superadmin/admins/${selectedId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('sa_accessToken')}`
