@@ -1,0 +1,49 @@
+.custom-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 100%;
+}
+
+.custom-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 0.25rem;
+}
+
+.custom-input {
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  background: white;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.custom-input:focus {
+  outline: none;
+  border-color: var(--primary-color, #6366f1);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.input-error {
+  border-color: #ef4444 !important;
+}
+
+.input-error-msg {
+  font-size: 0.75rem;
+  color: #ef4444;
+  margin-top: 0.25rem;
+}
+
+.custom-input::placeholder {
+  color: #9ca3af;
+}
+
+.custom-input:disabled {
+  background-color: #f9fafb;
+  cursor: not-allowed;
+}

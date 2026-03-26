@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Modal from '../components/Modal';
 import API_BASE_URL from '../config';
+import Button from '../components/common/Button';
+import Input from '../components/common/Input';
 
 const FoodList = () => {
   const [foods, setFoods] = useState([]);
@@ -12,6 +14,7 @@ const FoodList = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const fetchFoods = async () => {
     try {
@@ -38,7 +41,11 @@ const FoodList = () => {
 
   useEffect(() => {
     fetchFoods();
-  }, []);
+  }, [refreshTrigger]);
+
+  const handleRefresh = () => {
+    setRefreshTrigger(prev => prev + 1);
+  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -110,56 +117,56 @@ const FoodList = () => {
     }
   };
 
-  if (loading) return <div className="loading">Loading products...</div>;
-  if (error) return <div className="error">{error}</div>;
+  if (loading && foods.length === 0) return <div className="loading" style={{ padding: '2rem', textAlign: 'center' }}>Loading products...</div>;
+  if (error && foods.length === 0) return <div className="error" style={{ padding: '2rem', textAlign: 'center', color: 'var(--danger-color)' }}>{error}</div>;
 
   return (
     <div className="food-list-container">
       <div className="sa-page-header">
         <h2 style={{ fontSize: '1.5rem', fontWeight: '700' }}>Product Management</h2>
-        <button 
-          className="refresh-btn" 
-          style={{ width: 'auto', background: 'var(--primary-color)', color: 'white' }} 
-          onClick={() => setShowAddForm(!showAddForm)}
-        >
-          {showAddForm ? 'Cancel' : '+ Add Food'}
-        </button>
+        <div style={{ display: 'flex', gap: '0.75rem' }}>
+          <Button
+            variant="outline"
+            onClick={handleRefresh}
+            loading={loading && foods.length > 0}
+            title="Refresh Products"
+          >
+            🔄
+          </Button>
+          <Button
+            onClick={() => setShowAddForm(!showAddForm)}
+            variant={showAddForm ? 'secondary' : 'primary'}
+          >
+            {showAddForm ? 'Cancel' : '+ Add Food'}
+          </Button>
+        </div>
       </div>
 
       {showAddForm && (
         <div className="user-table-wrapper" style={{ padding: '2rem', marginBottom: '2rem' }}>
           <h3 style={{ marginBottom: '1.5rem' }}>Add New Food Item</h3>
           <form onSubmit={handleCreateFood} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
-            <div className="sa-form-group">
-              <label>Food Name</label>
-              <input 
-                type="text" 
-                className="sa-input" 
-                value={newFood.name} 
-                onChange={e => setNewFood({...newFood, name: e.target.value})} 
-                required 
-              />
-            </div>
-            <div className="sa-form-group">
-              <label>Category</label>
-              <input 
-                type="text" 
-                className="sa-input" 
-                value={newFood.category} 
-                onChange={e => setNewFood({...newFood, category: e.target.value})} 
-                required 
-              />
-            </div>
-            <div className="sa-form-group">
-              <label>Price</label>
-              <input 
-                type="number" 
-                className="sa-input" 
-                value={newFood.price} 
-                onChange={e => setNewFood({...newFood, price: e.target.value})} 
-                required 
-              />
-            </div>
+            <Input
+              label="Food Name"
+              type="text"
+              value={newFood.name}
+              onChange={e => setNewFood({ ...newFood, name: e.target.value })}
+              required
+            />
+            <Input
+              label="Category"
+              type="text"
+              value={newFood.category}
+              onChange={e => setNewFood({ ...newFood, category: e.target.value })}
+              required
+            />
+            <Input
+              label="Price"
+              type="number"
+              value={newFood.price}
+              onChange={e => setNewFood({ ...newFood, price: e.target.value })}
+              required
+            />
             <div className="sa-form-group">
               <label>Food Image</label>
               <input
@@ -179,12 +186,12 @@ const FoodList = () => {
             </div>
             <div className="sa-form-group" style={{ gridColumn: '1 / -1' }}>
               <label>Description</label>
-              <textarea 
-                className="sa-input" 
+              <textarea
+                className="sa-input"
                 style={{ minHeight: '80px', resize: 'vertical' }}
-                value={newFood.description} 
-                onChange={e => setNewFood({...newFood, description: e.target.value})} 
-                required 
+                value={newFood.description}
+                onChange={e => setNewFood({ ...newFood, description: e.target.value })}
+                required
               />
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-end' }}>

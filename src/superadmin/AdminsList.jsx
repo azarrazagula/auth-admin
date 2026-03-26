@@ -118,7 +118,7 @@ const AdminsList = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading && admins.length === 0) return <div style={{ padding: '2rem', textAlign: 'center' }}>Loading...</div>;
 
   return (
     <div>

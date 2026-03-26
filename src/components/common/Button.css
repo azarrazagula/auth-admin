@@ -1,0 +1,107 @@
+.custom-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  gap: 0.5rem;
+  width: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.custom-btn:active {
+  transform: scale(0.98);
+}
+
+.custom-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Variants */
+.btn-primary {
+  background: var(--primary-color, #6366f1);
+  color: white;
+  box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.2);
+}
+
+.btn-primary:hover {
+  background: #4f46e5;
+  box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+}
+
+.btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+}
+
+.btn-secondary:hover {
+  background: #e5e7eb;
+}
+
+.btn-danger {
+  background: var(--danger-color, #ef4444);
+  color: white;
+  box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.2);
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+  box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--primary-color, #6366f1);
+  border: 1.5px solid var(--primary-color, #6366f1);
+}
+
+.btn-outline:hover {
+  background: rgba(99, 102, 241, 0.05);
+}
+
+/* Sizes */
+.btn-sm {
+  padding: 0.4rem 1rem;
+  font-size: 0.75rem;
+}
+
+.btn-md {
+  padding: 0.6rem 1.25rem;
+  font-size: 0.875rem;
+}
+
+.btn-lg {
+  padding: 0.8rem 1.75rem;
+  font-size: 1rem;
+}
+
+/* Loading state */
+.btn-loading {
+  color: transparent !important;
+}
+
+.btn-spinner {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spinner 0.6s linear infinite;
+  display: block;
+  position: absolute;
+  left: calc(50% - 0.625rem);
+  top: calc(50% - 0.625rem);
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}

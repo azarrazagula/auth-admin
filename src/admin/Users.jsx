@@ -3,6 +3,7 @@ import './Users.css';
 import Modal from '../components/Modal';
 import FoodList from './FoodList';
 import API_BASE_URL from '../config';
+import Button from '../components/common/Button';
 
 const Users = ({ onLogout, user }) => {
   const [users, setUsers] = useState([]);
@@ -103,8 +104,8 @@ const Users = ({ onLogout, user }) => {
     fetchUsers();
   };
 
-  if (loading) return <div className="loading">Loading users...</div>;
-  if (error) return <div className="error">{error}</div>;
+  if (loading && users.length === 0) return <div className="loading" style={{ padding: '2rem', textAlign: 'center' }}>Loading users...</div>;
+  if (error && users.length === 0) return <div className="error" style={{ padding: '2rem', textAlign: 'center', color: 'var(--danger-color)' }}>{error}</div>;
 
   return (
     <div className="users-dashboard">
@@ -151,9 +152,16 @@ const Users = ({ onLogout, user }) => {
                   </span>
                 </div>
               )}
-              <button className="refresh-btn" onClick={handleRefresh}>
-                Refresh
-              </button>
+              {activeView === 'profiles' && (
+                <Button 
+                  variant="outline" 
+                  onClick={handleRefresh}
+                  loading={loading && users.length > 0}
+                  title="Refresh Profiles"
+                >
+                  🔄
+                </Button>
+              )}
             </div>
           </div>
 
