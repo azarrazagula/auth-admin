@@ -6,7 +6,8 @@ const FoodList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [newFood, setNewFood] = useState({ name: '', category: '', price: '', image: '' });
+  const [newFood, setNewFood] = useState({ name: '', description: '', category: '', price: '', image: '' });
+  const [imagePreview, setImagePreview] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -22,7 +23,7 @@ const FoodList = () => {
       });
       const data = await response.json();
       if (data.success) {
-        setFoods(data.foods || []);
+        setFoods(data.data || []);
       } else {
         setError(data.message || 'Failed to fetch foods');
       }
@@ -36,6 +37,18 @@ const FoodList = () => {
   useEffect(() => {
     fetchFoods();
   }, []);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64 = reader.result;
+      setImagePreview(base64);
+      setNewFood(prev => ({ ...prev, image: base64 }));
+    };
+    reader.readAsDataURL(file);
+  };
 
   const handleCreateFood = async (e) => {
     e.preventDefault();
@@ -51,8 +64,9 @@ const FoodList = () => {
       });
       const data = await response.json();
       if (data.success) {
-        setFoods([...foods, data.food]);
-        setNewFood({ name: '', category: '', price: '', image: '' });
+        setFoods([...foods, data.data]);
+        setNewFood({ name: '', description: '', category: '', price: '', image: '' });
+        setImagePreview(null);
         setShowAddForm(false);
         alert('Food added successfully!');
       } else {
@@ -143,12 +157,29 @@ const FoodList = () => {
               />
             </div>
             <div className="sa-form-group">
-              <label>Image URL</label>
-              <input 
-                type="text" 
+              <label>Food Image</label>
+              <input
+                type="file"
+                accept="image/*"
+                className="sa-input"
+                style={{ padding: '0.5rem' }}
+                onChange={handleImageChange}
+              />
+              {imagePreview && (
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  style={{ marginTop: '0.5rem', width: '80px', height: '80px', borderRadius: '8px', objectFit: 'cover', border: '1px solid var(--border-color)' }}
+                />
+              )}
+            </div>
+            <div className="sa-form-group" style={{ gridColumn: '1 / -1' }}>
+              <label>Description</label>
+              <textarea 
                 className="sa-input" 
-                value={newFood.image} 
-                onChange={e => setNewFood({...newFood, image: e.target.value})} 
+                style={{ minHeight: '80px', resize: 'vertical' }}
+                value={newFood.description} 
+                onChange={e => setNewFood({...newFood, description: e.target.value})} 
                 required 
               />
             </div>

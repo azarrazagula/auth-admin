@@ -198,6 +198,8 @@
   box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
 }
 
+
+
 .user-table-wrapper {
   background: var(--card-bg);
   backdrop-filter: blur(12px);

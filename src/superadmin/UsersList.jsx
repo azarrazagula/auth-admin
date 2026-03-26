@@ -50,9 +50,12 @@ const UsersList = () => {
             <tr>
               <th>Name</th>
               <th>Email</th>
+              <th>Phone</th>
+              <th>DOB</th>
               <th>Status</th>
               <th>Verified</th>
               <th>Created At</th>
+              <th>Last Login</th>
             </tr>
           </thead>
           <tbody>
@@ -60,6 +63,8 @@ const UsersList = () => {
               <tr key={user._id}>
                 <td>{user.firstName} {user.lastName}</td>
                 <td>{user.email}</td>
+                <td>{user.phoneNumber || 'N/A'}</td>
+                <td>{user.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : 'N/A'}</td>
                 <td><span className="sa-badge sa-badge-user">User</span></td>
                 <td>
                   <span className={`sa-badge ${user.isVerified ? 'sa-badge-success' : 'sa-badge-danger'}`}>
@@ -67,6 +72,7 @@ const UsersList = () => {
                   </span>
                 </td>
                 <td>{new Date(user.createdAt).toLocaleDateString()}</td>
+                <td>{user.lastLogin ? new Date(user.lastLogin).toLocaleString() : 'Never logged in'}</td>
               </tr>
             ))}
           </tbody>

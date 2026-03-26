@@ -111,13 +111,13 @@ const Users = ({ onLogout, user }) => {
         </div>
 
         <nav className="nav-menu">
-          <div 
+          <div
             className={`nav-item ${activeView === 'profiles' ? 'active' : ''}`}
             onClick={() => setActiveView('profiles')}
           >
             <span>👤</span> User Profiles
           </div>
-          <div 
+          <div
             className={`nav-item ${activeView === 'products' ? 'active' : ''}`}
             onClick={() => setActiveView('products')}
           >
@@ -172,10 +172,13 @@ const Users = ({ onLogout, user }) => {
                       <tr>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Phone</th>
+                        <th>DOB</th>
                         <th>Age</th>
                         <th>Role</th>
                         <th>Verified</th>
                         <th>Created At</th>
+                        <th>Last Login</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
@@ -184,6 +187,8 @@ const Users = ({ onLogout, user }) => {
                         <tr key={user._id}>
                           <td>{user.firstName} {user.lastName}</td>
                           <td>{user.email}</td>
+                          <td>{user.phoneNumber || 'N/A'}</td>
+                          <td>{user.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : 'N/A'}</td>
                           <td>{user.age || 'N/A'}</td>
                           <td>
                             <span className={`role-badge ${user.role}`}>
@@ -192,10 +197,13 @@ const Users = ({ onLogout, user }) => {
                           </td>
                           <td>
                             <span className={`status-badge ${user.isVerified ? 'verified' : 'pending'}`}>
-                               {user.isVerified ? 'Yes' : 'No'}
+                              {user.isVerified ? 'Yes' : 'No'}
                             </span>
                           </td>
                           <td>{new Date(user.createdAt).toLocaleDateString()}</td>
+                          <td>
+                            {user.lastLogin ? new Date(user.lastLogin).toLocaleString() : 'Never logged in'}
+                          </td>
                           <td>
                             <button
                               className="delete-btn"
