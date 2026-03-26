@@ -97,6 +97,7 @@ const Loginform = ({ onLogin }) => {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="admin@example.com"
           required
+          autoComplete="email"
         />
       </div>
       <div className="form-group">
@@ -105,8 +106,9 @@ const Loginform = ({ onLogin }) => {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="••••••••"
+          placeholder="********"
           required
+          autoComplete="current-password"
         />
       </div>
       <button type="submit" className="auth-btn" disabled={loading}>
@@ -132,6 +134,7 @@ const Loginform = ({ onLogin }) => {
             placeholder="admin@example.com"
             required
             disabled={!!resetToken}
+            autoComplete="email"
           />
         </div>
         {!resetToken && (
@@ -180,8 +183,9 @@ const Loginform = ({ onLogin }) => {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="••••••••"
+          placeholder="********"
           required
+          autoComplete="new-password"
         />
       </div>
       <div className="form-group">
@@ -190,8 +194,9 @@ const Loginform = ({ onLogin }) => {
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          placeholder="••••••••"
+          placeholder="********"
           required
+          autoComplete="new-password"
         />
       </div>
       <button type="submit" className="auth-btn" disabled={loading}>

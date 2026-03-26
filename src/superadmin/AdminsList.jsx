@@ -135,15 +135,15 @@ const AdminsList = () => {
           <form onSubmit={handleCreateAdmin} style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', alignItems: 'end' }}>
              <div className="sa-form-group" style={{ marginBottom: 0 }}>
                <label>Name</label>
-               <input type="text" className="sa-input" value={newAdmin.name} onChange={e => setNewAdmin({...newAdmin, name: e.target.value})} required placeholder="John Doe" />
+               <input type="text" className="sa-input" value={newAdmin.name} onChange={e => setNewAdmin({...newAdmin, name: e.target.value})} required placeholder="John Doe" autoComplete="name" />
              </div>
              <div className="sa-form-group" style={{ marginBottom: 0 }}>
                <label>Email</label>
-               <input type="email" className="sa-input" value={newAdmin.email} onChange={e => setNewAdmin({...newAdmin, email: e.target.value})} required placeholder="email@example.com" />
+               <input type="email" className="sa-input" value={newAdmin.email} onChange={e => setNewAdmin({...newAdmin, email: e.target.value})} required placeholder="email@example.com" autoComplete="email" />
              </div>
              <div className="sa-form-group" style={{ marginBottom: 0 }}>
                <label>Password</label>
-               <input type="password" className="sa-input" value={newAdmin.password} onChange={e => setNewAdmin({...newAdmin, password: e.target.value})} required placeholder="••••••••" />
+               <input type="password" className="sa-input" value={newAdmin.password} onChange={e => setNewAdmin({...newAdmin, password: e.target.value})} required placeholder="********" autoComplete="new-password" />
              </div>
              <button type="submit" className="sa-btn">Create</button>
           </form>

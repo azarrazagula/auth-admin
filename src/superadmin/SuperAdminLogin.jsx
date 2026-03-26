@@ -140,8 +140,9 @@ const SuperAdminLogin = ({ onLogin }) => {
                 className="sa-input"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
+                placeholder="********"
                 required
+                autoComplete="new-password"
               />
             </div>
             <div className="sa-form-group">
@@ -151,8 +152,9 @@ const SuperAdminLogin = ({ onLogin }) => {
                 className="sa-input"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="••••••••"
+                placeholder="********"
                 required
+                autoComplete="new-password"
               />
             </div>
             <button type="submit" className="sa-btn" disabled={loading}>
@@ -173,6 +175,7 @@ const SuperAdminLogin = ({ onLogin }) => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="superadmin@example.com"
                 required
+                autoComplete="email"
               />
             </div>
             <button type="submit" className="sa-btn" disabled={loading}>
@@ -193,6 +196,7 @@ const SuperAdminLogin = ({ onLogin }) => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="superadmin@example.com"
                 required
+                autoComplete="email"
               />
             </div>
             <div className="sa-form-group">
@@ -205,8 +209,9 @@ const SuperAdminLogin = ({ onLogin }) => {
                 className="sa-input"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
+                placeholder="********"
                 required
+                autoComplete="current-password"
               />
             </div>
             <button type="submit" className="sa-btn" disabled={loading}>
