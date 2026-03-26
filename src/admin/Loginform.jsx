@@ -240,8 +240,8 @@ const Loginform = ({ onLogin }) => {
               (Demo Reset Password Link)
             </button>
             <div style={{ marginTop: '1rem', borderTop: '1px solid #eee', paddingTop: '1rem' }}>
-              <button 
-                onClick={() => window.location.search = '?portal=superadmin'} 
+              <button
+                onClick={() => window.location.search = '?portal=superadmin'}
                 className="link-btn"
                 style={{ color: '#6366f1', fontWeight: '600' }}
               >
