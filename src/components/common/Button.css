@@ -66,10 +66,57 @@
   background: rgba(99, 102, 241, 0.05);
 }
 
+.btn-ghost {
+  background: transparent;
+  color: #6b7280;
+  border: 1px solid transparent;
+}
+
+.btn-ghost:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #111827;
+}
+
+.btn-glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #4b5563;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Elegant Refresh Animation */
+.refresh-icon {
+  display: inline-block;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-loading .refresh-icon {
+  animation: rotate-refresh 1s linear infinite;
+}
+
+@keyframes rotate-refresh {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 /* Sizes */
 .btn-sm {
-  padding: 0.4rem 1rem;
+  padding: 0.4rem 0.8rem;
   font-size: 0.75rem;
+  border-radius: 6px;
+}
+
+.btn-icon-only {
+  padding: 0.5rem;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
 }
 
 .btn-md {

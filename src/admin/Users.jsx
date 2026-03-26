@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Users.css';
 import Modal from '../components/Modal';
 import FoodList from './FoodList';
+import BillingDetails from './BillingDetails';
 import API_BASE_URL from '../config';
 import Button from '../components/common/Button';
 
@@ -128,6 +129,12 @@ const Users = ({ onLogout, user }) => {
           >
             <span>🍔</span> Products
           </div>
+          <div
+            className={`nav-item ${activeView === 'billing' ? 'active' : ''}`}
+            onClick={() => setActiveView('billing')}
+          >
+            <span>🧾</span> Billing Details
+          </div>
         </nav>
 
         <div style={{ marginTop: 'auto' }}>
@@ -143,6 +150,7 @@ const Users = ({ onLogout, user }) => {
             <h1>
               {activeView === 'profiles' && 'User Profiles'}
               {activeView === 'products' && 'Product Management'}
+              {activeView === 'billing' && 'Billing Details'}
             </h1>
             <div className="header-actions">
               {user && (
@@ -154,12 +162,15 @@ const Users = ({ onLogout, user }) => {
               )}
               {activeView === 'profiles' && (
                 <Button 
-                  variant="outline" 
+                  variant="glass" 
+                  size="sm"
+                  iconOnly
                   onClick={handleRefresh}
                   loading={loading && users.length > 0}
+                  showSpinner={false}
                   title="Refresh Profiles"
                 >
-                  🔄
+                  <span className="refresh-icon">🔄</span>
                 </Button>
               )}
             </div>
@@ -236,6 +247,7 @@ const Users = ({ onLogout, user }) => {
           )}
 
           {activeView === 'products' && <FoodList />}
+          {activeView === 'billing' && <BillingDetails />}
         </div>
       </main>
 
