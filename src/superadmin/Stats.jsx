@@ -37,29 +37,29 @@ const Stats = () => {
 
   return (
     <div>
-      <div className="sa-page-header">
+      <div className="sa-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
         <h2>System Statistics</h2>
         <button className="sa-btn sa-btn-sm" style={{ width: 'auto' }} onClick={fetchStats}>
-          Refresh Stats
+           🔄 Refresh Stats
         </button>
       </div>
 
       {error && <div className="sa-badge sa-badge-danger" style={{ marginBottom: '1rem' }}>{error}</div>}
 
       <div className="sa-stats-grid">
-        <div className="sa-stat-card">
+        <div className="sa-stat-card" style={{ animationDelay: '0.1s' }}>
           <div className="sa-stat-label">Total Users</div>
           <div className="sa-stat-value">{stats?.totalUsers || 0}</div>
         </div>
-        <div className="sa-stat-card">
+        <div className="sa-stat-card" style={{ animationDelay: '0.2s' }}>
           <div className="sa-stat-label">Total Admins</div>
           <div className="sa-stat-value">{stats?.totalAdmins || 0}</div>
         </div>
-        <div className="sa-stat-card">
+        <div className="sa-stat-card" style={{ animationDelay: '0.3s' }}>
           <div className="sa-stat-label">Verified Users</div>
           <div className="sa-stat-value">{stats?.verifiedUsers || 0}</div>
         </div>
-        <div className="sa-stat-card">
+        <div className="sa-stat-card" style={{ animationDelay: '0.4s' }}>
           <div className="sa-stat-label">Login Rate</div>
           <div className="sa-stat-value">{stats?.loginPercentage || '0%'}</div>
         </div>

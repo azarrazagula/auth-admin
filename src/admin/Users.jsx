@@ -15,6 +15,7 @@ const Users = ({ onLogout, user }) => {
   const [selectedId, setSelectedId] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [activeView, setActiveView] = useState('profiles'); // Current view state
+  const [searchTerm, setSearchTerm] = useState('');
 
   const fetchUsers = async () => {
     try {
@@ -152,27 +153,33 @@ const Users = ({ onLogout, user }) => {
               {activeView === 'products' && 'Product Management'}
               {activeView === 'billing' && 'Billing Details'}
             </h1>
-            <div className="header-actions">
-              {user && (
-                <div className="user-info">
-                  <span className="user-name">
-                    {user.firstName ? `${user.firstName} ${user.lastName || ''}` : (user.name || 'Admin Account')}
-                  </span>
-                </div>
-              )}
-              {activeView === 'profiles' && (
-                <Button 
-                  variant="glass" 
-                  size="sm"
-                  iconOnly
-                  onClick={handleRefresh}
-                  loading={loading && users.length > 0}
-                  showSpinner={false}
-                  title="Refresh Profiles"
-                >
-                  <span className="refresh-icon">🔄</span>
-                </Button>
-              )}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginLeft: 'auto' }}>
+               {activeView === 'profiles' && (
+                 <div style={{ position: 'relative' }}>
+                    <span style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', fontSize: '0.8rem' }}>🔍</span>
+                    <input type="text" className="sa-input" placeholder="Search profiles..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} style={{ paddingLeft: '2.2rem', width: '220px', height: '42px', fontSize: '0.9rem' }} />
+                 </div>
+               )}
+               <div className="header-actions" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                {activeView === 'profiles' && (
+                    <Button 
+                    variant="glass" 
+                    size="sm"
+                    onClick={handleRefresh}
+                    loading={loading && users.length > 0}
+                    style={{ background: 'rgba(255,255,255,0.05)', color: 'white', border: '1px solid var(--border-glass)' }}
+                    >
+                    🔄 Refresh
+                    </Button>
+                )}
+                {user && (
+                    <div className="user-info" style={{ borderLeft: '1px solid var(--border-glass)', paddingLeft: '1.5rem' }}>
+                    <span className="user-name" style={{ fontWeight: '600' }}>
+                        {user.firstName ? `${user.firstName} ${user.lastName || ''}` : (user.name || 'Admin Account')}
+                    </span>
+                    </div>
+                )}
+               </div>
             </div>
           </div>
 
@@ -205,40 +212,56 @@ const Users = ({ onLogout, user }) => {
                         <th>Actions</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      {users.map((user) => (
-                        <tr key={user._id}>
-                          <td>{user.firstName} {user.lastName}</td>
-                          <td>{user.email}</td>
-                          <td>{user.phoneNumber || user.phonenumber || 'N/A'}</td>
-                          <td>{user.dateOfBirth || user['Date-Of-Birth'] ? (
-                            new Date(user.dateOfBirth || user['Date-Of-Birth']).toLocaleDateString()
+                     <tbody>
+                      {users
+                        .filter(u => 
+                          `${u.firstName} ${u.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          u.email.toLowerCase().includes(searchTerm.toLowerCase())
+                        )
+                        .map((u, idx) => (
+                        <tr key={u._id} style={{ animation: `saFadeIn 0.3s ease forwards ${idx * 0.05}s` }}>
+                          <td>{u.firstName} {u.lastName}</td>
+                          <td style={{ color: 'var(--primary)', fontWeight: '500' }}>{u.email}</td>
+                          <td>{u.phoneNumber || u.phonenumber || 'N/A'}</td>
+                          <td>{u.dateOfBirth || u['Date-Of-Birth'] ? (
+                            new Date(u.dateOfBirth || u['Date-Of-Birth']).toLocaleDateString()
                           ) : 'N/A'}</td>
-                          <td>{user.age || 'N/A'}</td>
+                          <td>{u.age || 'N/A'}</td>
                           <td>
-                            <span className={`role-badge ${user.role}`}>
-                              {user.role}
+                            <span className={`role-badge ${u.role}`}>
+                              {u.role}
                             </span>
                           </td>
                           <td>
-                            <span className={`status-badge ${user.isVerified ? 'verified' : 'pending'}`}>
-                              {user.isVerified ? 'Yes' : 'No'}
+                            <span className={`status-badge ${u.isVerified ? 'verified' : 'pending'}`}>
+                              {u.isVerified ? 'Yes' : 'No'}
                             </span>
                           </td>
-                          <td>{new Date(user.createdAt).toLocaleDateString()}</td>
+                          <td>{new Date(u.createdAt).toLocaleDateString()}</td>
                           <td>
-                            {user.lastLogin ? new Date(user.lastLogin).toLocaleString() : 'Never logged in'}
+                            {u.lastLogin ? new Date(u.lastLogin).toLocaleString() : 'Never'}
                           </td>
                           <td>
                             <button
                               className="delete-btn"
-                              onClick={() => openDeleteModal(user._id)}
+                              onClick={() => openDeleteModal(u._id)}
                             >
                               Delete
                             </button>
                           </td>
                         </tr>
                       ))}
+                      {users.length > 0 && 
+                        users.filter(u => 
+                          `${u.firstName} ${u.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          u.email.toLowerCase().includes(searchTerm.toLowerCase())
+                        ).length === 0 && (
+                        <tr>
+                          <td colSpan="10" style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
+                             No profiles found matching "{searchTerm}"
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>

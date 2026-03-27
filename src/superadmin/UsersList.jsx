@@ -6,6 +6,7 @@ const UsersList = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const fetchUsers = async () => {
     try {
@@ -37,11 +38,17 @@ const UsersList = () => {
 
   return (
     <div>
-      <div className="sa-page-header">
+      <div className="sa-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
         <h2>User Management</h2>
-        <button className="sa-btn sa-btn-sm" style={{ width: 'auto' }} onClick={fetchUsers}>
-          Refresh List
-        </button>
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <div style={{ position: 'relative' }}>
+             <span style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}>🔍</span>
+             <input type="text" className="sa-input" placeholder="Search by name or email..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} style={{ paddingLeft: '2.5rem', width: '300px' }} />
+          </div>
+          <button className="sa-btn sa-btn-sm" style={{ width: 'auto' }} onClick={fetchUsers}>
+            🔄 Refresh
+          </button>
+        </div>
       </div>
 
       {error && <div className="sa-badge sa-badge-danger" style={{ marginBottom: '1rem' }}>{error}</div>}
@@ -61,24 +68,39 @@ const UsersList = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map(user => (
-              <tr key={user._id}>
+            {users
+              .filter(u => 
+                `${u.firstName} ${u.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                u.email.toLowerCase().includes(searchTerm.toLowerCase())
+              )
+              .map((user, idx) => (
+              <tr key={user._id} style={{ animation: `saFadeIn 0.3s ease forwards ${idx * 0.05}s` }}>
                 <td>{user.firstName} {user.lastName}</td>
-                <td>{user.email}</td>
+                <td style={{ color: 'var(--primary)', fontWeight: '500' }}>{user.email}</td>
                 <td>{user.phoneNumber || user.phonenumber || 'N/A'}</td>
                 <td>{user.dateOfBirth || user['Date-Of-Birth'] ? (
                   new Date(user.dateOfBirth || user['Date-Of-Birth']).toLocaleDateString()
                 ) : 'N/A'}</td>
-                <td><span className="sa-badge sa-badge-user">User</span></td>
                 <td>
                   <span className={`sa-badge ${user.isVerified ? 'sa-badge-success' : 'sa-badge-danger'}`}>
                     {user.isVerified ? 'Verified' : 'Unverified'}
                   </span>
                 </td>
                 <td>{new Date(user.createdAt).toLocaleDateString()}</td>
-                <td>{user.lastLogin ? new Date(user.lastLogin).toLocaleString() : 'Never logged in'}</td>
+                <td>{user.lastLogin ? new Date(user.lastLogin).toLocaleString() : 'Never'}</td>
               </tr>
             ))}
+            {users.length > 0 && 
+              users.filter(u => 
+                `${u.firstName} ${u.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                u.email.toLowerCase().includes(searchTerm.toLowerCase())
+              ).length === 0 && (
+              <tr>
+                <td colSpan="8" style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
+                   No users found matching "{searchTerm}"
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

@@ -81,19 +81,17 @@ const BillingDetails = () => {
 
   return (
     <div className="billing-container">
-      <div className="sa-page-header">
+      <div className="sa-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
         <h2 style={{ fontSize: '1.5rem', fontWeight: '700' }}>Billing Details</h2>
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
           <Button
             variant="glass"
             size="sm"
-            iconOnly
             onClick={handleRefresh}
             loading={loading && billings.length > 0}
-            showSpinner={false}
-            title="Refresh Billing"
+            style={{ minWidth: '120px' }}
           >
-            <span className="refresh-icon">🔄</span>
+             🔄 Refresh
           </Button>
         </div>
       </div>

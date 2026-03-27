@@ -12,6 +12,7 @@ const AdminsList = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const fetchAdmins = async () => {
     try {
@@ -125,44 +126,53 @@ const AdminsList = () => {
 
   return (
     <div>
-      <div className="sa-page-header">
+      <div className="sa-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
         <h2>Administrator Management</h2>
-        <button className="sa-btn sa-btn-sm" style={{ width: 'auto' }} onClick={() => setShowAddForm(!showAddForm)}>
-          {showAddForm ? 'Cancel' : '+ New Admin'}
-        </button>
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <div style={{ position: 'relative' }}>
+             <span style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}>🔍</span>
+             <input type="text" className="sa-input" placeholder="Search admins..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} style={{ paddingLeft: '2.5rem', width: '250px' }} />
+          </div>
+          <button className="sa-btn sa-btn-sm" style={{ width: 'auto', background: 'var(--primary)' }} onClick={() => setShowAddForm(!showAddForm)}>
+            {showAddForm ? 'Cancel' : '+ New Admin'}
+          </button>
+          <button className="sa-btn sa-btn-sm" style={{ width: 'auto' }} onClick={fetchAdmins}>
+             🔄 Refresh
+          </button>
+        </div>
       </div>
 
       {showAddForm && (
         <div className="sa-table-container" style={{ padding: '1.5rem', marginBottom: '2rem' }}>
           <h3>Add New Administrator</h3>
           <form onSubmit={handleCreateAdmin} style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', alignItems: 'end' }}>
-             <div className="sa-form-group" style={{ marginBottom: 0 }}>
-               <label>Name</label>
-               <input type="text" className="sa-input" value={newAdmin.name} onChange={e => setNewAdmin({...newAdmin, name: e.target.value})} required placeholder="John Doe" autoComplete="name" />
-             </div>
-             <div className="sa-form-group" style={{ marginBottom: 0 }}>
-               <label>Email</label>
-               <input type="email" className="sa-input" value={newAdmin.email} onChange={e => setNewAdmin({...newAdmin, email: e.target.value})} required placeholder="email@example.com" autoComplete="email" />
-             </div>
-             <div className="sa-form-group" style={{ marginBottom: 0 }}>
-               <label>Password</label>
-               <input type="password" className="sa-input" value={newAdmin.password} onChange={e => setNewAdmin({...newAdmin, password: e.target.value})} required placeholder="********" autoComplete="new-password" />
-             </div>
-             <div className="sa-form-group" style={{ marginBottom: 0 }}>
-               <label>Phone Number</label>
-               <input type="text" className="sa-input" value={newAdmin.phoneNumber} onChange={e => setNewAdmin({...newAdmin, phoneNumber: e.target.value})} required placeholder="9944171692" autoComplete="tel" />
-             </div>
-             <div className="sa-form-group" style={{ marginBottom: 0 }}>
-               <label>Age</label>
-               <input type="number" className="sa-input" value={newAdmin.age} onChange={e => setNewAdmin({...newAdmin, age: e.target.value})} placeholder="33" />
-             </div>
-             <div className="sa-form-group" style={{ marginBottom: 0 }}>
-               <label>DOB (DD.MM.YYYY)</label>
-               <input type="text" className="sa-input" value={newAdmin.dateOfBirth} onChange={e => setNewAdmin({...newAdmin, dateOfBirth: e.target.value})} placeholder="12.03.1997" />
-             </div>
-             <div style={{ gridColumn: 'span 4', display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
-                <button type="submit" className="sa-btn" style={{ width: '200px' }}>Create</button>
-             </div>
+            <div className="sa-form-group" style={{ marginBottom: 0 }}>
+              <label>Name</label>
+              <input type="text" className="sa-input" value={newAdmin.name} onChange={e => setNewAdmin({ ...newAdmin, name: e.target.value })} required placeholder="John Doe" autoComplete="name" />
+            </div>
+            <div className="sa-form-group" style={{ marginBottom: 0 }}>
+              <label>Email</label>
+              <input type="email" className="sa-input" value={newAdmin.email} onChange={e => setNewAdmin({ ...newAdmin, email: e.target.value })} required placeholder="email@example.com" autoComplete="email" />
+            </div>
+            <div className="sa-form-group" style={{ marginBottom: 0 }}>
+              <label>Password</label>
+              <input type="password" className="sa-input" value={newAdmin.password} onChange={e => setNewAdmin({ ...newAdmin, password: e.target.value })} required placeholder="********" autoComplete="new-password" />
+            </div>
+            <div className="sa-form-group" style={{ marginBottom: 0 }}>
+              <label>Phone Number</label>
+              <input type="text" className="sa-input" value={newAdmin.phoneNumber} onChange={e => setNewAdmin({ ...newAdmin, phoneNumber: e.target.value })} required placeholder="9944171692" autoComplete="tel" />
+            </div>
+            <div className="sa-form-group" style={{ marginBottom: 0 }}>
+              <label>Age</label>
+              <input type="number" className="sa-input" value={newAdmin.age} onChange={e => setNewAdmin({ ...newAdmin, age: e.target.value })} placeholder="33" />
+            </div>
+            <div className="sa-form-group" style={{ marginBottom: 0 }}>
+              <label>DOB (DD.MM.YYYY)</label>
+              <input type="text" className="sa-input" value={newAdmin.dateOfBirth} onChange={e => setNewAdmin({ ...newAdmin, dateOfBirth: e.target.value })} placeholder="12.03.1997" />
+            </div>
+            <div style={{ gridColumn: 'span 4', display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
+              <button type="submit" className="sa-btn" style={{ width: '200px' }}>Create</button>
+            </div>
           </form>
         </div>
       )}
@@ -184,27 +194,45 @@ const AdminsList = () => {
             </tr>
           </thead>
           <tbody>
-            {admins.map(admin => (
-              <tr key={admin._id}>
-                <td>{admin.firstName} {admin.lastName}</td>
-                <td>{admin.email}</td>
-                <td>{admin.phoneNumber || 'N/A'}</td>
-                <td>{admin.age || 'N/A'}</td>
-                <td>{admin.dateOfBirth ? new Date(admin.dateOfBirth).toLocaleDateString() : 'N/A'}</td>
-                <td>{admin.lastLogin ? new Date(admin.lastLogin).toLocaleString() : 'Never'}</td>
-                <td>
+            {admins
+              .filter(a => 
+                a.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                a.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                a.email?.toLowerCase().includes(searchTerm.toLowerCase())
+              )
+              .map((admin, idx) => (
+                <tr key={admin._id} style={{ animation: `saFadeIn 0.3s ease forwards ${idx * 0.05}s` }}>
+                  <td>{admin.firstName} {admin.lastName}</td>
+                  <td style={{ color: 'var(--primary)', fontWeight: '500' }}>{admin.email}</td>
+                  <td>{admin.phoneNumber || 'N/A'}</td>
+                  <td>{admin.age || 'N/A'}</td>
+                  <td>{admin.dateOfBirth ? new Date(admin.dateOfBirth).toLocaleDateString() : 'N/A'}</td>
+                  <td>{admin.lastLogin ? new Date(admin.lastLogin).toLocaleString() : 'Never'}</td>
+                  <td>
                     <span className={`sa-badge ${admin.isVerified ? 'sa-badge-success' : 'sa-badge-danger'}`} style={{ marginRight: '0.5rem' }}>
-                        {admin.isVerified ? 'Verified' : 'Unverified'}
+                      {admin.isVerified ? 'Verified' : 'Unverified'}
                     </span>
                     <span className="sa-badge sa-badge-admin">Admin</span>
-                </td>
-                <td>
-                  <button className="sa-btn-sm sa-btn-danger sa-btn" style={{ width: 'auto' }} onClick={() => openDeleteModal(admin._id)}>
-                    Delete
-                  </button>
+                  </td>
+                  <td>
+                    <button className="sa-btn-sm sa-btn-danger sa-btn" style={{ width: 'auto' }} onClick={() => openDeleteModal(admin._id)}>
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            {admins.length > 0 && 
+             admins.filter(a => 
+               a.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+               a.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+               a.email?.toLowerCase().includes(searchTerm.toLowerCase())
+             ).length === 0 && (
+              <tr>
+                <td colSpan="8" style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
+                  No admins found matching "{searchTerm}"
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

@@ -29,19 +29,19 @@ const SuperAdminDashboard = ({ onLogout }) => {
         </div>
 
         <nav className="sa-nav">
-          <div 
+          <div
             className={`sa-nav-item ${activeTab === 'admins' ? 'active' : ''}`}
             onClick={() => setActiveTab('admins')}
           >
             <span>👥</span> Admins
           </div>
-          <div 
+          <div
             className={`sa-nav-item ${activeTab === 'users' ? 'active' : ''}`}
             onClick={() => setActiveTab('users')}
           >
             <span>👤</span> Users
           </div>
-          <div 
+          <div
             className={`sa-nav-item ${activeTab === 'stats' ? 'active' : ''}`}
             onClick={() => setActiveTab('stats')}
           >

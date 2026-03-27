@@ -122,25 +122,23 @@ const FoodList = () => {
 
   return (
     <div className="food-list-container">
-      <div className="sa-page-header">
+      <div className="sa-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
         <h2 style={{ fontSize: '1.5rem', fontWeight: '700' }}>Product Management</h2>
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
-          <Button
-            variant="glass"
-            size="sm"
-            iconOnly
-            onClick={handleRefresh}
-            loading={loading && foods.length > 0}
-            showSpinner={false}
-            title="Refresh Products"
-          >
-            <span className="refresh-icon">🔄</span>
-          </Button>
+        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
           <Button
             onClick={() => setShowAddForm(!showAddForm)}
             variant={showAddForm ? 'secondary' : 'primary'}
           >
             {showAddForm ? 'Cancel' : '+ Add Food'}
+          </Button>
+          <Button
+            variant="glass"
+            size="sm"
+            onClick={handleRefresh}
+            loading={loading && foods.length > 0}
+            style={{ minWidth: '120px' }}
+          >
+             🔄 Refresh
           </Button>
         </div>
       </div>
