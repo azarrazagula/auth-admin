@@ -234,7 +234,7 @@ const Loginform = ({ onLogin }) => {
           </h1>
           <p>
             {mode === 'login' && 'Welcome back! Please enter your details.'}
-            {mode === 'forgot' && 'No worries! We will send you instructions.'}
+            {mode === 'forgot' && 'No worries! We will send an OTP to your phone.'}
             {mode === 'reset' && 'Create a strong new password for your account.'}
           </p>
         </div>

@@ -3,6 +3,8 @@ import Users from "./admin/Users";
 import Loginform from "./admin/Loginform";
 import SuperAdminLogin from "./superadmin/SuperAdminLogin";
 import SuperAdminDashboard from "./superadmin/SuperAdminDashboard";
+import ResetSuperadminPassword from "./superadmin/ResetSuperadminPassword";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 
 function App() {
@@ -68,22 +70,22 @@ function App() {
     setCurrentUser(null);
   };
 
-  // Rendering logic
-  if (isSuperAdmin) {
-    return <SuperAdminDashboard onLogout={handleSuperLogout} user={currentUser} />;
-  }
-
-  if (isSuperPortal) {
-    return <SuperAdminLogin onLogin={handleSuperLogin} />;
-  }
-
   return (
     <div className="App">
-      {isAuthenticated ? (
-        <Users onLogout={handleLogout} user={currentUser} />
-      ) : (
-        <Loginform onLogin={handleLogin} />
-      )}
+      <Routes>
+        <Route path="/superadmin/reset-password/:token" element={<ResetSuperadminPassword />} />
+        <Route path="*" element={
+          isSuperAdmin ? (
+            <SuperAdminDashboard onLogout={handleSuperLogout} user={currentUser} />
+          ) : isSuperPortal ? (
+            <SuperAdminLogin onLogin={handleSuperLogin} />
+          ) : isAuthenticated ? (
+            <Users onLogout={handleLogout} user={currentUser} />
+          ) : (
+            <Loginform onLogin={handleLogin} />
+          )
+        } />
+      </Routes>
     </div>
   );
 }

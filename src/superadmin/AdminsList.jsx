@@ -8,7 +8,7 @@ const AdminsList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showAddForm, setShowAddForm] = useState(false);
-  const [newAdmin, setNewAdmin] = useState({ name: '', email: '', password: '' });
+  const [newAdmin, setNewAdmin] = useState({ name: '', email: '', password: '', phoneNumber: '', age: '', dateOfBirth: '' });
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -64,7 +64,10 @@ const AdminsList = () => {
           firstName,
           lastName,
           email: newAdmin.email,
-          password: newAdmin.password
+          password: newAdmin.password,
+          phoneNumber: newAdmin.phoneNumber,
+          age: newAdmin.age,
+          dateOfBirth: newAdmin.dateOfBirth
         }),
       });
       console.log('Create response status:', response.status);
@@ -73,7 +76,7 @@ const AdminsList = () => {
       if (data.success) {
         alert(data.message || 'New administrator created successfully!');
         setAdmins([...admins, data.admin]);
-        setNewAdmin({ name: '', email: '', password: '' });
+        setNewAdmin({ name: '', email: '', password: '', phoneNumber: '', age: '', dateOfBirth: '' });
         setShowAddForm(false);
       } else {
         console.error('Create failed:', data.message);
@@ -145,7 +148,21 @@ const AdminsList = () => {
                <label>Password</label>
                <input type="password" className="sa-input" value={newAdmin.password} onChange={e => setNewAdmin({...newAdmin, password: e.target.value})} required placeholder="********" autoComplete="new-password" />
              </div>
-             <button type="submit" className="sa-btn">Create</button>
+             <div className="sa-form-group" style={{ marginBottom: 0 }}>
+               <label>Phone Number</label>
+               <input type="text" className="sa-input" value={newAdmin.phoneNumber} onChange={e => setNewAdmin({...newAdmin, phoneNumber: e.target.value})} required placeholder="9944171692" autoComplete="tel" />
+             </div>
+             <div className="sa-form-group" style={{ marginBottom: 0 }}>
+               <label>Age</label>
+               <input type="number" className="sa-input" value={newAdmin.age} onChange={e => setNewAdmin({...newAdmin, age: e.target.value})} placeholder="33" />
+             </div>
+             <div className="sa-form-group" style={{ marginBottom: 0 }}>
+               <label>DOB (DD.MM.YYYY)</label>
+               <input type="text" className="sa-input" value={newAdmin.dateOfBirth} onChange={e => setNewAdmin({...newAdmin, dateOfBirth: e.target.value})} placeholder="12.03.1997" />
+             </div>
+             <div style={{ gridColumn: 'span 4', display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
+                <button type="submit" className="sa-btn" style={{ width: '200px' }}>Create</button>
+             </div>
           </form>
         </div>
       )}
@@ -158,8 +175,11 @@ const AdminsList = () => {
             <tr>
               <th>Name</th>
               <th>Email</th>
+              <th>Phone</th>
+              <th>Age</th>
+              <th>Birth Date</th>
+              <th>Last Login</th>
               <th>Status</th>
-              <th>Created</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -168,8 +188,16 @@ const AdminsList = () => {
               <tr key={admin._id}>
                 <td>{admin.firstName} {admin.lastName}</td>
                 <td>{admin.email}</td>
-                <td><span className="sa-badge sa-badge-admin">Admin</span></td>
-                <td>{new Date(admin.createdAt).toLocaleDateString()}</td>
+                <td>{admin.phoneNumber || 'N/A'}</td>
+                <td>{admin.age || 'N/A'}</td>
+                <td>{admin.dateOfBirth ? new Date(admin.dateOfBirth).toLocaleDateString() : 'N/A'}</td>
+                <td>{admin.lastLogin ? new Date(admin.lastLogin).toLocaleString() : 'Never'}</td>
+                <td>
+                    <span className={`sa-badge ${admin.isVerified ? 'sa-badge-success' : 'sa-badge-danger'}`} style={{ marginRight: '0.5rem' }}>
+                        {admin.isVerified ? 'Verified' : 'Unverified'}
+                    </span>
+                    <span className="sa-badge sa-badge-admin">Admin</span>
+                </td>
                 <td>
                   <button className="sa-btn-sm sa-btn-danger sa-btn" style={{ width: 'auto' }} onClick={() => openDeleteModal(admin._id)}>
                     Delete
