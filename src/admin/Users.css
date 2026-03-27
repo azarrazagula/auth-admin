@@ -205,8 +205,25 @@
   backdrop-filter: blur(12px);
   border-radius: 16px;
   border: 1px solid var(--border-color);
-  overflow: hidden;
+  overflow-x: auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.user-table-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.user-table-wrapper::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.user-table-wrapper::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+.user-table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #818cf8;
 }
 
 .user-table {
@@ -223,12 +240,14 @@
   font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  white-space: nowrap;
 }
 
 .user-table td {
   padding: 1.25rem;
   border-bottom: 1px solid var(--border-color);
   font-size: 0.95rem;
+  white-space: nowrap;
 }
 
 .user-table tr:hover {
