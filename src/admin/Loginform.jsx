@@ -5,6 +5,7 @@ import API_BASE_URL from '../config';
 const Loginform = ({ onLogin }) => {
   const [mode, setMode] = useState('login'); // 'login', 'forgot', 'reset'
   const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [resetToken, setResetToken] = useState('');
@@ -38,16 +39,16 @@ const Loginform = ({ onLogin }) => {
       body = { email, password };
     } else if (mode === 'forgot') {
       url = `${apiBase}/api/admin/forgot-password`;
-      body = { email };
+      body = { phoneNumber };
     } else if (mode === 'reset') {
       if (!resetToken) {
-        setError('Reset token is required.');
+        setError('OTP is required.');
         setLoading(false);
         return;
       }
-      url = `${apiBase}/api/admin/reset-password/${resetToken}`;
+      url = `${apiBase}/api/admin/reset-password`;
       method = 'PUT';
-      body = { password }; // Backend only needs the new password
+      body = { phoneNumber, otp: resetToken, password };
     }
 
     try {
@@ -67,9 +68,9 @@ const Loginform = ({ onLogin }) => {
           onLogin(data.admin || data.user);
         } else if (mode === 'forgot') {
           // In development, we get the token directly
-          if (data.resetToken) {
-            setResetToken(data.resetToken);
-            setMessage(`Instruction: Copy the token below and click "Enter Token" to reset your password.`);
+          if (data.otp) {
+            setResetToken(data.otp);
+            setMessage(`Instruction: Copy the OTP below and click "Enter OTP" to reset your password.`);
           } else {
             setMessage(data.message || 'Action successful!');
           }
@@ -126,20 +127,20 @@ const Loginform = ({ onLogin }) => {
     <div className="auth-form-wrapper">
       <form onSubmit={handleSubmit} className="auth-form">
         <div className="form-group">
-          <label>Enter Registered Email</label>
+          <label>Enter Registered Phone Number</label>
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="admin@example.com"
+            type="text"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            placeholder="e.g. 9944171692"
             required
             disabled={!!resetToken}
-            autoComplete="email"
+            autoComplete="tel"
           />
         </div>
         {!resetToken && (
           <button type="submit" className="auth-btn" disabled={loading}>
-            {loading ? 'Sending...' : 'Send Reset Link'}
+            {loading ? 'Sending...' : 'Send OTP'}
           </button>
         )}
         <div className="form-footer">
@@ -155,10 +156,10 @@ const Loginform = ({ onLogin }) => {
 
       {resetToken && (
         <div className="token-display">
-          <p className="token-label">Reset Token:</p>
+          <p className="token-label">OTP:</p>
           <div className="token-box">{resetToken}</div>
           <button className="auth-btn secondary" onClick={() => setMode('reset')}>
-            Enter Token & Reset
+            Enter OTP & Reset
           </button>
         </div>
       )}
@@ -168,12 +169,23 @@ const Loginform = ({ onLogin }) => {
   const renderResetForm = () => (
     <form onSubmit={handleSubmit} className="auth-form">
       <div className="form-group">
-        <label>Reset Token</label>
+        <label>Registered Phone Number</label>
+        <input
+          type="text"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+          placeholder="e.g. 9944171692"
+          required
+          autoComplete="tel"
+        />
+      </div>
+      <div className="form-group">
+        <label>OTP</label>
         <input
           type="text"
           value={resetToken}
           onChange={(e) => setResetToken(e.target.value)}
-          placeholder="Enter the token sent to your email"
+          placeholder="Enter the OTP sent to your phone"
           required
         />
       </div>
