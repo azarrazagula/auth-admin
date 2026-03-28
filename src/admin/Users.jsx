@@ -145,42 +145,46 @@ const Users = ({ onLogout, user }) => {
         </div>
       </aside>
 
-      <main className="main-content">
-        <div className="users-container">
-          <div className="header-section">
+      <main className="main-content" style={{ padding: 0 }}>
+        <header className="sa-main-header">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginLeft: 'auto' }}>
+                {activeView === 'profiles' && (
+                    <div style={{ position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', fontSize: '0.8rem' }}>🔍</span>
+                        <input type="text" className="sa-input" placeholder="Search profiles..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} style={{ paddingLeft: '2.2rem', width: '220px', height: '42px', fontSize: '0.9rem' }} />
+                    </div>
+                )}
+                <div className="header-actions" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    {activeView === 'profiles' && (
+                        <Button 
+                        variant="glass" 
+                        size="sm"
+                        onClick={handleRefresh}
+                        loading={loading && users.length > 0}
+                        style={{ background: 'rgba(255,255,255,0.05)', color: 'white', border: '1px solid var(--border-glass)' }}
+                        >
+                        🔄 Refresh
+                        </Button>
+                    )}
+                    {user && (
+                        <div className="admin-profile-pill">
+                            <div className="status-dot"></div>
+                            <span className="admin-name">
+                                {user.firstName ? `${user.firstName} ${user.lastName || ''}` : (user.name || 'Administrator')}
+                            </span>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </header>
+
+        <div className="users-container" style={{ padding: '0 2rem 2rem 2rem' }}>
+          <div className="header-section" style={{ marginBottom: '2rem' }}>
             <h1>
               {activeView === 'profiles' && 'User Profiles'}
               {activeView === 'products' && 'Product Management'}
               {activeView === 'billing' && 'Billing Details'}
             </h1>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginLeft: 'auto' }}>
-               {activeView === 'profiles' && (
-                 <div style={{ position: 'relative' }}>
-                    <span style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', fontSize: '0.8rem' }}>🔍</span>
-                    <input type="text" className="sa-input" placeholder="Search profiles..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} style={{ paddingLeft: '2.2rem', width: '220px', height: '42px', fontSize: '0.9rem' }} />
-                 </div>
-               )}
-               <div className="header-actions" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                {activeView === 'profiles' && (
-                    <Button 
-                    variant="glass" 
-                    size="sm"
-                    onClick={handleRefresh}
-                    loading={loading && users.length > 0}
-                    style={{ background: 'rgba(255,255,255,0.05)', color: 'white', border: '1px solid var(--border-glass)' }}
-                    >
-                    🔄 Refresh
-                    </Button>
-                )}
-                {user && (
-                    <div className="user-info" style={{ borderLeft: '1px solid var(--border-glass)', paddingLeft: '1.5rem' }}>
-                    <span className="user-name" style={{ fontWeight: '600' }}>
-                        {user.firstName ? `${user.firstName} ${user.lastName || ''}` : (user.name || 'Admin Account')}
-                    </span>
-                    </div>
-                )}
-               </div>
-            </div>
           </div>
 
           {activeView === 'profiles' && (

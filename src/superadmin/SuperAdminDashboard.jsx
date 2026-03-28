@@ -4,7 +4,7 @@ import AdminsList from './AdminsList';
 import UsersList from './UsersList';
 import Stats from './Stats';
 
-const SuperAdminDashboard = ({ onLogout }) => {
+const SuperAdminDashboard = ({ onLogout, user }) => {
   const [activeTab, setActiveTab] = useState('admins');
 
   const renderContent = () => {
@@ -57,7 +57,17 @@ const SuperAdminDashboard = ({ onLogout }) => {
       </aside>
 
       <main className="sa-main">
-        {renderContent()}
+        <header className="sa-main-header">
+            <div className="admin-profile-pill">
+                <div className="status-dot"></div>
+                <span className="admin-name">
+                    {user?.firstName ? `${user.firstName} ${user.lastName || ''}` : (user?.name || 'SuperAdmin')}
+                </span>
+            </div>
+        </header>
+        <div style={{ padding: '0 2rem' }}>
+            {renderContent()}
+        </div>
       </main>
     </div>
   );

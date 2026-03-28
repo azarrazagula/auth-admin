@@ -130,14 +130,14 @@ const AdminsList = () => {
         <h2>Administrator Management</h2>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           <div style={{ position: 'relative' }}>
-             <span style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}>🔍</span>
-             <input type="text" className="sa-input" placeholder="Search admins..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} style={{ paddingLeft: '2.5rem', width: '250px' }} />
+            <span style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}>🔍</span>
+            <input type="text" className="sa-input" placeholder="Search admins..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} style={{ paddingLeft: '2.5rem', width: '250px' }} />
           </div>
           <button className="sa-btn sa-btn-sm" style={{ width: 'auto', background: 'var(--primary)' }} onClick={() => setShowAddForm(!showAddForm)}>
             {showAddForm ? 'Cancel' : '+ New Admin'}
           </button>
           <button className="sa-btn sa-btn-sm" style={{ width: 'auto' }} onClick={fetchAdmins}>
-             🔄 Refresh
+            🔄 Refresh
           </button>
         </div>
       </div>
@@ -195,9 +195,9 @@ const AdminsList = () => {
           </thead>
           <tbody>
             {admins
-              .filter(a => 
-                a.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                a.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+              .filter(a =>
+                a.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                a.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 a.email?.toLowerCase().includes(searchTerm.toLowerCase())
               )
               .map((admin, idx) => (
@@ -221,18 +221,18 @@ const AdminsList = () => {
                   </td>
                 </tr>
               ))}
-            {admins.length > 0 && 
-             admins.filter(a => 
-               a.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) || 
-               a.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) || 
-               a.email?.toLowerCase().includes(searchTerm.toLowerCase())
-             ).length === 0 && (
-              <tr>
-                <td colSpan="8" style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
-                  No admins found matching "{searchTerm}"
-                </td>
-              </tr>
-            )}
+            {admins.length > 0 &&
+              admins.filter(a =>
+                a.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                a.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                a.email?.toLowerCase().includes(searchTerm.toLowerCase())
+              ).length === 0 && (
+                <tr>
+                  <td colSpan="8" style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
+                    No admins found matching "{searchTerm}"
+                  </td>
+                </tr>
+              )}
           </tbody>
         </table>
       </div>
