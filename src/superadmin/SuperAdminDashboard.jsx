@@ -3,6 +3,7 @@ import './SuperAdmin.css';
 import AdminsList from './AdminsList';
 import UsersList from './UsersList';
 import Stats from './Stats';
+import AllPaymentHistory from './AllPaymentHistory';
 
 const SuperAdminDashboard = ({ onLogout, user }) => {
   const [activeTab, setActiveTab] = useState('admins');
@@ -13,6 +14,8 @@ const SuperAdminDashboard = ({ onLogout, user }) => {
         return <AdminsList />;
       case 'users':
         return <UsersList />;
+      case 'payments':
+        return <AllPaymentHistory />;
       case 'stats':
         return <Stats />;
       default:
@@ -46,6 +49,12 @@ const SuperAdminDashboard = ({ onLogout, user }) => {
             onClick={() => setActiveTab('stats')}
           >
             <span>📊</span> Statistics
+          </div>
+          <div
+            className={`sa-nav-item ${activeTab === 'payments' ? 'active' : ''}`}
+            onClick={() => setActiveTab('payments')}
+          >
+            <span>💳</span> Payments
           </div>
         </nav>
 

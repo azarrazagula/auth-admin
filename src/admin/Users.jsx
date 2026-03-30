@@ -3,6 +3,7 @@ import './Users.css';
 import Modal from '../components/Modal';
 import FoodList from './FoodList';
 import BillingDetails from './BillingDetails';
+import PaymentHistory from './PaymentHistory';
 import API_BASE_URL from '../config';
 import Button from '../components/common/Button';
 
@@ -136,6 +137,12 @@ const Users = ({ onLogout, user }) => {
           >
             <span>🧾</span> Billing Details
           </div>
+          <div
+            className={`nav-item ${activeView === 'payments' ? 'active' : ''}`}
+            onClick={() => setActiveView('payments')}
+          >
+            <span>💳</span> Payment History
+          </div>
         </nav>
 
         <div style={{ marginTop: 'auto' }}>
@@ -184,6 +191,7 @@ const Users = ({ onLogout, user }) => {
               {activeView === 'profiles' && 'User Profiles'}
               {activeView === 'products' && 'Product Management'}
               {activeView === 'billing' && 'Billing Details'}
+              {activeView === 'payments' && 'Payment Dashboard'}
             </h1>
           </div>
 
@@ -275,6 +283,7 @@ const Users = ({ onLogout, user }) => {
 
           {activeView === 'products' && <FoodList />}
           {activeView === 'billing' && <BillingDetails />}
+          {activeView === 'payments' && <PaymentHistory />}
         </div>
       </main>
 

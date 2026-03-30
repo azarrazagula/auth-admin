@@ -148,6 +148,7 @@ const FoodList = () => {
           <h3 style={{ marginBottom: '1.5rem' }}>Add New Food Item</h3>
           <form onSubmit={handleCreateFood} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
             <Input
+              id="food-name"
               label="Food Name"
               type="text"
               value={newFood.name}
@@ -155,6 +156,7 @@ const FoodList = () => {
               required
             />
             <Input
+              id="food-category"
               label="Category"
               type="text"
               value={newFood.category}
@@ -162,6 +164,7 @@ const FoodList = () => {
               required
             />
             <Input
+              id="food-price"
               label="Price"
               type="number"
               value={newFood.price}
