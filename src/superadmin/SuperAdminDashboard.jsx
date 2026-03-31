@@ -28,7 +28,7 @@ const SuperAdminDashboard = ({ onLogout, user }) => {
       <aside className="sa-sidebar">
         <div className="sa-sidebar-header">
           <div className="sa-sidebar-logo">💎</div>
-          <div className="sa-sidebar-title">SuperAdmin</div>
+          <div className="sa-sidebar-title"><span className="nav-text">SuperAdmin</span></div>
         </div>
 
         <nav className="sa-nav">
@@ -36,46 +36,46 @@ const SuperAdminDashboard = ({ onLogout, user }) => {
             className={`sa-nav-item ${activeTab === 'admins' ? 'active' : ''}`}
             onClick={() => setActiveTab('admins')}
           >
-            <span>👥</span> Admins
+            <span className="nav-icon">👥</span> <span className="nav-text">Admins</span>
           </div>
           <div
             className={`sa-nav-item ${activeTab === 'users' ? 'active' : ''}`}
             onClick={() => setActiveTab('users')}
           >
-            <span>👤</span> Users
+            <span className="nav-icon">👤</span> <span className="nav-text">Users</span>
           </div>
           <div
             className={`sa-nav-item ${activeTab === 'stats' ? 'active' : ''}`}
             onClick={() => setActiveTab('stats')}
           >
-            <span>📊</span> Statistics
+            <span className="nav-icon">📊</span> <span className="nav-text">Statistics</span>
           </div>
           <div
             className={`sa-nav-item ${activeTab === 'payments' ? 'active' : ''}`}
             onClick={() => setActiveTab('payments')}
           >
-            <span>💳</span> Payments
+            <span className="nav-icon">💳</span> <span className="nav-text">Payments</span>
           </div>
         </nav>
 
         <div style={{ marginTop: 'auto' }}>
           <div className="sa-nav-item" onClick={onLogout}>
-            <span>🚪</span> Logout
+            <span className="nav-icon">🚪</span> <span className="nav-text">Logout</span>
           </div>
         </div>
       </aside>
 
       <main className="sa-main">
         <header className="sa-main-header">
-            <div className="admin-profile-pill">
-                <div className="status-dot"></div>
-                <span className="admin-name">
-                    {user?.firstName ? `${user.firstName} ${user.lastName || ''}` : (user?.name || 'SuperAdmin')}
-                </span>
-            </div>
+          <div className="admin-profile-pill">
+            <div className="status-dot"></div>
+            <span className="admin-name">
+              {user?.firstName ? `${user.firstName} ${user.lastName || ''}` : (user?.name || 'SuperAdmin')}
+            </span>
+          </div>
         </header>
         <div style={{ padding: '0 2rem' }}>
-            {renderContent()}
+          {renderContent()}
         </div>
       </main>
     </div>

@@ -4,7 +4,7 @@
   min-height: 100vh;
   background: var(--bg-deep);
   color: var(--text-main);
-  font-family: 'Outfit', sans-serif;
+  font-family: "Outfit", sans-serif;
 }
 
 .sa-login-page {
@@ -27,8 +27,14 @@
 }
 
 @keyframes saFadeUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .sa-header {
@@ -44,8 +50,13 @@
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .sa-header h1 {
@@ -130,46 +141,137 @@
   z-index: 100;
 }
 
+.sa-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0 0.75rem;
+  flex: 1;
+  margin-top: 0;
+}
+
 .sa-nav-item {
-  padding: 0.65rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem;
   border-radius: 12px;
   color: var(--text-muted);
   font-weight: 600;
-  transition: var(--transition-normal);
+  transition: all 0.25s ease;
   cursor: pointer;
   background: transparent;
   border: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.nav-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  width: 26px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-text {
+  opacity: 0;
+  transition: opacity 0.25s ease 0.05s;
+  font-size: 0.95rem;
+}
+
+.sa-sidebar:hover .nav-text {
+  opacity: 1;
 }
 
 .sa-nav-item:hover {
-  color: var(--text-main);
   background: var(--bg-surface-light);
-  transform: translateY(-1px);
+  color: var(--text-main);
 }
 
 .sa-nav-item.active {
-  color: white;
   background: var(--primary);
+  color: white;
   box-shadow: var(--shadow-glow);
 }
 
+.sa-nav-item.active .nav-icon {
+  color: white;
+}
+
+.sa-nav-item.active .nav-text {
+  color: white;
+  font-weight: 700;
+}
+
 .sa-sidebar {
-  width: 280px;
+  width: 85px;
   background: var(--sidebar-texture);
-  border-right: var(--border-glow);
+  border-right: 1px solid var(--border-glass);
   display: flex;
   flex-direction: column;
-  padding: 1.5rem;
+  padding: 1.5rem 0;
   backdrop-filter: var(--glass-blur);
-  transition: var(--transition-normal);
-  position: relative;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 1000;
+  min-height: 100vh;
+}
+
+.sa-sidebar:hover {
+  width: 270px;
+  box-shadow: 4px 0 24px rgba(0,0,0,0.3);
+}
+
+.sa-sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0 1.5rem;
+  margin-bottom: 2rem;
+  min-height: 48px;
+}
+
+.sa-sidebar-logo {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  width: 36px;
+  text-align: center;
+}
+
+.sa-sidebar-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0;
+  transition: opacity 0.3s ease 0.1s;
+  white-space: nowrap;
+}
+
+.sa-sidebar:hover .sa-sidebar-title {
+  opacity: 1;
 }
 
 .sa-sidebar::after {
-  content: '';
+  content: "";
   position: absolute;
-  top: 0; right: 0; width: 2px; height: 100%;
-  background: linear-gradient(to bottom, transparent, var(--primary), var(--secondary), transparent);
+  top: 0;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--primary),
+    var(--secondary),
+    transparent
+  );
   box-shadow: 0 0 10px var(--primary-glow);
 }
 
@@ -205,9 +307,12 @@
 }
 
 .sa-stat-card::before {
-  content: '';
+  content: "";
   position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(135deg, var(--primary) 0%, transparent 100%);
   opacity: 0;
   transition: var(--transition-normal);
@@ -218,8 +323,14 @@
 }
 
 @keyframes saFadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .sa-stat-card:hover {
@@ -279,8 +390,13 @@
   transition: var(--transition-normal);
 }
 
-.sa-table tr td:first-child { border-radius: 12px 0 0 12px; border-left: 2px solid transparent; }
-.sa-table tr td:last-child { border-radius: 0 12px 12px 0; }
+.sa-table tr td:first-child {
+  border-radius: 12px 0 0 12px;
+  border-left: 2px solid transparent;
+}
+.sa-table tr td:last-child {
+  border-radius: 0 12px 12px 0;
+}
 
 .sa-table tr:hover td {
   background: rgba(255, 255, 255, 0.05);

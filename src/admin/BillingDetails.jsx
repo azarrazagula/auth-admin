@@ -3,7 +3,7 @@ import API_BASE_URL from '../config';
 import Button from '../components/common/Button';
 import Modal from '../components/Modal';
 
-const BillingDetails = () => {
+const BillingDetails = ({ user }) => {
   const [billings, setBillings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -82,7 +82,7 @@ const BillingDetails = () => {
   return (
     <div className="billing-container">
       <div className="sa-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <h2 style={{ fontSize: '1.5rem', fontWeight: '700' }}>Billing Details</h2>
+
         <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
           <Button
             variant="glass"
@@ -91,7 +91,7 @@ const BillingDetails = () => {
             loading={loading && billings.length > 0}
             style={{ minWidth: '120px' }}
           >
-             🔄 Refresh
+            🔄 Refresh
           </Button>
         </div>
       </div>

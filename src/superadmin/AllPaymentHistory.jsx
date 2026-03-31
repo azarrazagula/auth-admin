@@ -7,6 +7,7 @@ const AllPaymentHistory = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const fetchPayments = async () => {
     try {
@@ -59,13 +60,24 @@ const AllPaymentHistory = () => {
           )}
         </div>
         <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+          <div style={{ position: 'relative' }}>
+            <span style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}>🔍</span>
+            <input 
+              type="text" 
+              className="sa-input" 
+              placeholder="Search Order ID..." 
+              value={searchTerm} 
+              onChange={e => setSearchTerm(e.target.value)} 
+              style={{ paddingLeft: '2.5rem', width: '250px' }} 
+            />
+          </div>
           <button
             className="sa-btn primary"
             onClick={handleRefresh}
             disabled={loading}
             style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}
           >
-            {loading ? 'Refreshing...' : '🔄 Refresh' }
+            {loading ? 'Refreshing...' : '🔄 Refresh'}
           </button>
         </div>
       </div>
@@ -78,6 +90,7 @@ const AllPaymentHistory = () => {
                 <th>User Details</th>
                 <th>Order / Payment ID</th>
                 <th>Amount</th>
+                <th>Method</th>
                 <th>Status</th>
                 <th>Date</th>
               </tr>
@@ -85,13 +98,19 @@ const AllPaymentHistory = () => {
             <tbody>
               {payments.length === 0 ? (
                 <tr>
-                  <td colSpan="5" style={{ textAlign: 'center', padding: '2rem', color: '#9ca3af' }}>
+                  <td colSpan="6" style={{ textAlign: 'center', padding: '2rem', color: '#9ca3af' }}>
                     No payment records found.
                   </td>
                 </tr>
               ) : (
-                payments.map(payment => (
-                  <tr key={payment._id}>
+                payments
+                  .filter(payment => 
+                    !searchTerm || 
+                    (payment.razorpayOrderId && payment.razorpayOrderId.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    (payment.razorpayPaymentId && payment.razorpayPaymentId.toLowerCase().includes(searchTerm.toLowerCase()))
+                  )
+                  .map((payment, idx) => (
+                  <tr key={payment._id} style={{ animation: `saFadeIn 0.3s ease forwards ${idx * 0.05}s` }}>
                     <td>
                       {payment.user ? (
                         <div>
@@ -112,6 +131,18 @@ const AllPaymentHistory = () => {
                       <div style={{ fontSize: '0.8rem', fontWeight: 'normal', color: 'var(--text-muted)', marginTop: '0.2rem' }}>{payment.description}</div>
                     </td>
                     <td>
+                      <span style={{
+                        background: '#f3e8ff',
+                        color: '#7c3aed',
+                        padding: '0.2rem 0.6rem',
+                        borderRadius: '4px',
+                        fontSize: '0.75rem',
+                        fontWeight: '600'
+                      }}>
+                        {payment.paymentMethod || 'Card'}
+                      </span>
+                    </td>
+                    <td>
                       <span
                         style={{
                           background: payment.status === 'paid' ? '#166534' : '#991b1b',
@@ -129,6 +160,18 @@ const AllPaymentHistory = () => {
                     <td>{new Date(payment.createdAt).toLocaleString()}</td>
                   </tr>
                 ))
+              )}
+              {payments.length > 0 && 
+                payments.filter(payment => 
+                  !searchTerm || 
+                  (payment.razorpayOrderId && payment.razorpayOrderId.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (payment.razorpayPaymentId && payment.razorpayPaymentId.toLowerCase().includes(searchTerm.toLowerCase()))
+                ).length === 0 && (
+                <tr>
+                  <td colSpan="6" style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
+                    No payment records found matching "{searchTerm}"
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>
