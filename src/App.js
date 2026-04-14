@@ -21,7 +21,7 @@ function App() {
     setIsSuperPortal(portal === 'superadmin' || isSuperPath);
 
     const saToken = localStorage.getItem('sa_accessToken');
-    if (saToken) {
+    if (saToken && saToken !== 'undefined') {
       setIsSuperAdmin(true);
       return;
     }

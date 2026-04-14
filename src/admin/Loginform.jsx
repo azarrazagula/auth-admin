@@ -62,8 +62,13 @@ const Loginform = ({ onLogin }) => {
 
       const data = await response.json();
 
-      if (response.ok || data.success) {
+      if (response.ok && (data.success || data.accessToken)) {
         if (mode === 'login') {
+          if (!data.accessToken) {
+            setError('Login failed: No access token received from server');
+            setLoading(false);
+            return;
+          }
           localStorage.setItem('accessToken', data.accessToken);
           onLogin(data.admin || data.user);
         } else if (mode === 'forgot') {

@@ -29,7 +29,7 @@ const SuperAdminLogin = ({ onLogin }) => {
 
       const data = await response.json();
 
-      if (response.ok || data.success) {
+      if (response.ok && data.accessToken && (data.admin || data.user)) {
         localStorage.setItem('sa_accessToken', data.accessToken);
         onLogin(data.admin || data.user);
       } else {
