@@ -4,6 +4,7 @@ import Loginform from "./admin/Loginform";
 import SuperAdminLogin from "./superadmin/SuperAdminLogin";
 import SuperAdminDashboard from "./superadmin/SuperAdminDashboard";
 import ResetSuperadminPassword from "./superadmin/ResetSuperadminPassword";
+import ResetUserPassword from "./components/ResetUserPassword";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 
@@ -74,6 +75,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/superadmin/reset-password/:token" element={<ResetSuperadminPassword />} />
+        <Route path="/reset-password/:token" element={<ResetUserPassword />} />
         <Route path="*" element={
           isSuperAdmin ? (
             <SuperAdminDashboard onLogout={handleSuperLogout} user={currentUser} />

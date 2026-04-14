@@ -9,7 +9,7 @@ const SuperAdminLogin = ({ onLogin }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
-
+  const [previewUrl, setPreviewUrl] = useState('');
 
 
   const handleSubmit = async (e) => {
@@ -47,9 +47,13 @@ const SuperAdminLogin = ({ onLogin }) => {
     setLoading(true);
     setError('');
     setSuccessMsg('');
+    setPreviewUrl('');
 
     try {
       const apiBase = API_BASE_URL;
+      console.log(`[Frontend] Sending password reset request to: ${apiBase}/api/superadmin/forgot-password`);
+      console.log(`[Frontend] Payload:`, { email });
+
       const response = await fetch(`${apiBase}/api/superadmin/forgot-password`, {
         method: 'POST',
         headers: {
@@ -58,10 +62,17 @@ const SuperAdminLogin = ({ onLogin }) => {
         body: JSON.stringify({ email }),
       });
 
+      console.log(`[Frontend] Received response with status:`, response.status);
       const data = await response.json();
+      console.log(`[Frontend] Response Data:`, data);
 
       if (response.ok || data.success) {
-        setSuccessMsg(data.message || 'Password reset link sent to your email.');
+        if (data.previewUrl) {
+          setPreviewUrl(data.previewUrl);
+          setSuccessMsg('Mock email sent! Click the link below to view it.');
+        } else {
+          setSuccessMsg(data.message || 'Password reset link sent to your email.');
+        }
       } else {
         setError(data.message || 'Failed to request password reset');
       }
@@ -89,6 +100,13 @@ const SuperAdminLogin = ({ onLogin }) => {
 
         {error && <div className="sa-badge sa-badge-danger" style={{ display: 'block', textAlign: 'center', marginBottom: '1rem', padding: '0.5rem' }}>{error}</div>}
         {successMsg && <div className="sa-badge sa-badge-success" style={{ display: 'block', textAlign: 'center', marginBottom: '1rem', padding: '0.5rem', backgroundColor: '#d4edda', color: '#155724' }}>{successMsg}</div>}
+        {previewUrl && (
+          <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
+            <a href={previewUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#6366f1', fontWeight: 'bold' }}>
+              🔗 Open Mock Email
+            </a>
+          </div>
+        )}
 
         {view === 'forgotPassword' ? (
           <form onSubmit={handleForgotPassword}>
@@ -108,7 +126,7 @@ const SuperAdminLogin = ({ onLogin }) => {
               {loading ? 'Sending...' : 'Send Reset Link'}
             </button>
             <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-              <button type="button" onClick={() => { setView('login'); setError(''); setSuccessMsg(''); }} className="sa-nav-item" style={{ fontSize: '0.875rem', background: 'none', border: 'none', cursor: 'pointer' }}>Back to Login</button>
+              <button type="button" onClick={() => { setView('login'); setError(''); setSuccessMsg(''); setPreviewUrl(''); }} className="sa-nav-item" style={{ fontSize: '0.875rem', background: 'none', border: 'none', cursor: 'pointer' }}>Back to Login</button>
             </div>
           </form>
         ) : (
@@ -128,7 +146,7 @@ const SuperAdminLogin = ({ onLogin }) => {
             <div className="sa-form-group">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <label>Password</label>
-                <button type="button" onClick={() => { setView('forgotPassword'); setError(''); setSuccessMsg(''); }} style={{ fontSize: '0.8rem', color: '#6366f1', textDecoration: 'none', background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit' }}>Forgot Password?</button>
+                <button type="button" onClick={() => { setView('forgotPassword'); setError(''); setSuccessMsg(''); setPreviewUrl(''); }} style={{ fontSize: '0.8rem', color: '#6366f1', textDecoration: 'none', background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit' }}>Forgot Password?</button>
               </div>
               <input
                 type="password"
