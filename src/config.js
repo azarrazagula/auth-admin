@@ -5,7 +5,7 @@ const isLocal =
 
 const API_BASE_URL = isLocal
   ? "http://localhost:5001"
-  : process.env.REACT_APP_API_URL || "https://auth-backend-3-4m2m.onrender.com";
+  : process.env.REACT_APP_API_URL;
 
 console.log("Current API Configuration:", {
   hostname: window.location.hostname,
