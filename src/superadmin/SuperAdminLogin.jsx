@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './SuperAdmin.css';
 import API_BASE_URL from '../config';
 
@@ -10,7 +10,7 @@ const SuperAdminLogin = ({ onLogin }) => {
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
   const [previewUrl, setPreviewUrl] = useState('');
-  const [countdown, setCountdown] = useState(0);
+  const [countdown, setCountdown] = useState(0); // eslint-disable-line no-unused-vars
   const [timerId, setTimerId] = useState(null);
 
 
@@ -95,13 +95,13 @@ const SuperAdminLogin = ({ onLogin }) => {
     }
   };
 
-  const clearTimer = () => {
+  const clearTimer = useCallback(() => {
     if (timerId) {
       clearInterval(timerId);
       setTimerId(null);
       setCountdown(0);
     }
-  };
+  }, [timerId]);
 
   useEffect(() => {
     // Listen for password reset success from other tabs
@@ -116,7 +116,7 @@ const SuperAdminLogin = ({ onLogin }) => {
     };
 
     return () => channel.close();
-  }, [timerId]); // Dependency on timerId to ensure clearTimer uses latest state if needed
+  }, [clearTimer]); // clearTimer is now stable via useCallback
 
 
 
