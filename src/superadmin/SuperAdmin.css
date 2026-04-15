@@ -451,3 +451,47 @@
   color: white;
   box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
 }
+
+/* Premium Success Pulse */
+.sa-success-card {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 1.5rem;
+  border-radius: 16px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: pulse-glow 2s infinite ease-in-out;
+  margin: 2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+@keyframes pulse-glow {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 15px 35px rgba(16, 185, 129, 0.5);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+  }
+}
+
+.success-icon {
+  font-size: 1.5rem;
+  animation: check-bounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes check-bounce {
+  from { transform: scale(0); rotate: -45deg; }
+  to { transform: scale(1); rotate: 0deg; }
+}

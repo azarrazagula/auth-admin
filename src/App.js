@@ -5,7 +5,7 @@ import SuperAdminLogin from "./superadmin/SuperAdminLogin";
 import SuperAdminDashboard from "./superadmin/SuperAdminDashboard";
 import ResetSuperadminPassword from "./superadmin/ResetSuperadminPassword";
 import ResetUserPassword from "./components/ResetUserPassword";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 
 function App() {
@@ -14,11 +14,13 @@ function App() {
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [isSuperPortal, setIsSuperPortal] = useState(false);
 
+  const location = useLocation();
+
   // Check for portal mode and existing tokens on mount
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(location.search);
     const portal = urlParams.get('portal');
-    const isSuperPath = window.location.pathname.startsWith('/superadmin');
+    const isSuperPath = location.pathname.startsWith('/superadmin');
     setIsSuperPortal(portal === 'superadmin' || isSuperPath);
 
     const saToken = localStorage.getItem('sa_accessToken');
@@ -39,7 +41,7 @@ function App() {
         }
       }
     }
-  }, []);
+  }, [location]);
 
   const handleLogin = (user) => {
     setIsAuthenticated(true);
@@ -74,7 +76,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/superadmin/reset-password/:token" element={<ResetSuperadminPassword />} />
+        <Route path="/superadmin/reset-password" element={<ResetSuperadminPassword />} />
         <Route path="/reset-password/:token" element={<ResetUserPassword />} />
         <Route path="*" element={
           isSuperAdmin ? (

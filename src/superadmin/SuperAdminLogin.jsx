@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './SuperAdmin.css';
 import API_BASE_URL from '../config';
 
@@ -10,6 +10,8 @@ const SuperAdminLogin = ({ onLogin }) => {
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
   const [previewUrl, setPreviewUrl] = useState('');
+  const [countdown, setCountdown] = useState(0);
+  const [timerId, setTimerId] = useState(null);
 
 
   const handleSubmit = async (e) => {
@@ -67,12 +69,22 @@ const SuperAdminLogin = ({ onLogin }) => {
       console.log(`[Frontend] Response Data:`, data);
 
       if (response.ok || data.success) {
-        if (data.previewUrl) {
-          setPreviewUrl(data.previewUrl);
-          setSuccessMsg('Mock email sent! Click the link below to view it.');
-        } else {
-          setSuccessMsg(data.message || 'Password reset link sent to your email.');
-        }
+        setSuccessMsg(`OTP code sent to your email! Redirecting to entry page...`);
+        setCountdown(5);
+
+        const id = setInterval(() => {
+          setCountdown(prev => {
+            const next = prev - 1;
+            if (next <= 0) {
+              clearInterval(id);
+              window.location.href = `/superadmin/reset-password?email=${encodeURIComponent(email)}`;
+              return 0;
+            }
+            setSuccessMsg(`OTP code sent! Redirecting in ${next}s...`);
+            return next;
+          });
+        }, 1000);
+        setTimerId(id);
       } else {
         setError(data.message || 'Failed to request password reset');
       }
@@ -82,6 +94,29 @@ const SuperAdminLogin = ({ onLogin }) => {
       setLoading(false);
     }
   };
+
+  const clearTimer = () => {
+    if (timerId) {
+      clearInterval(timerId);
+      setTimerId(null);
+      setCountdown(0);
+    }
+  };
+
+  useEffect(() => {
+    // Listen for password reset success from other tabs
+    const channel = new BroadcastChannel('auth_status');
+    channel.onmessage = (event) => {
+      if (event.data.type === 'PASSWORD_RESET_SUCCESS') {
+        console.log('[Broadcast] Password reset detected in another tab');
+        clearTimer();
+        setView('login');
+        setSuccessMsg('Password reset successfully in another tab! You can now sign in.');
+      }
+    };
+
+    return () => channel.close();
+  }, [timerId]); // Dependency on timerId to ensure clearTimer uses latest state if needed
 
 
 
@@ -123,10 +158,10 @@ const SuperAdminLogin = ({ onLogin }) => {
               />
             </div>
             <button type="submit" className="sa-btn" disabled={loading}>
-              {loading ? 'Sending...' : 'Send Reset Link'}
+              {loading ? 'Sending...' : 'Send OTP Code'}
             </button>
             <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-              <button type="button" onClick={() => { setView('login'); setError(''); setSuccessMsg(''); setPreviewUrl(''); }} className="sa-nav-item" style={{ fontSize: '0.875rem', background: 'none', border: 'none', cursor: 'pointer' }}>Back to Login</button>
+              <button type="button" onClick={() => { clearTimer(); setView('login'); setError(''); setSuccessMsg(''); setPreviewUrl(''); }} className="sa-nav-item" style={{ fontSize: '0.875rem', background: 'none', border: 'none', cursor: 'pointer' }}>Back to Login</button>
             </div>
           </form>
         ) : (
@@ -146,7 +181,7 @@ const SuperAdminLogin = ({ onLogin }) => {
             <div className="sa-form-group">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <label>Password</label>
-                <button type="button" onClick={() => { setView('forgotPassword'); setError(''); setSuccessMsg(''); setPreviewUrl(''); }} style={{ fontSize: '0.8rem', color: '#6366f1', textDecoration: 'none', background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit' }}>Forgot Password?</button>
+                <button type="button" onClick={() => { clearTimer(); setView('forgotPassword'); setError(''); setSuccessMsg(''); setPreviewUrl(''); }} style={{ fontSize: '0.8rem', color: '#6366f1', textDecoration: 'none', background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit' }}>Forgot Password?</button>
               </div>
               <input
                 type="password"
@@ -162,8 +197,8 @@ const SuperAdminLogin = ({ onLogin }) => {
               {loading ? 'Authenticating...' : 'Sign In'}
             </button>
             <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-              <button 
-                type="button" 
+              <button
+                type="button"
                 onClick={() => window.location.href = '/'}
                 className="sa-nav-item"
                 style={{ margin: '0 auto', fontSize: '0.875rem', background: 'none', border: 'none', cursor: 'pointer' }}
