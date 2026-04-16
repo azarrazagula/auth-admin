@@ -58,7 +58,7 @@ const ResetSuperadminPassword = () => {
                 // Redirect back to login after 3 seconds
                 setTimeout(() => {
                     navigate('/?portal=superadmin');
-                }, 60000);
+                }, 1000);
             } else {
                 setError(data.message || 'Failed to reset password');
             }

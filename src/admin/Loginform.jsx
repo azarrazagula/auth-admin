@@ -46,6 +46,11 @@ const Loginform = ({ onLogin }) => {
         setLoading(false);
         return;
       }
+      if (password !== confirmPassword) {
+        setError('Passwords do not match!');
+        setLoading(false);
+        return;
+      }
       url = `${apiBase}/api/admin/reset-password`;
       method = 'PUT';
       body = { phoneNumber, otp: resetToken, password };
@@ -72,14 +77,11 @@ const Loginform = ({ onLogin }) => {
           localStorage.setItem('accessToken', data.accessToken);
           onLogin(data.admin || data.user);
         } else if (mode === 'forgot') {
-          // In development, we get the token directly
-          if (data.otp) {
-            setResetToken(data.otp);
-            setMessage(`Instruction: Copy the OTP below and click "Enter OTP" to reset your password.`);
-          } else {
-            setMessage(data.message || 'OTP sent successfully! Please enter it below.');
+          setMessage(data.message || 'OTP sent successfully to your phone!');
+          // Automatically switch to reset mode after a tiny delay so the message is visible
+          setTimeout(() => {
             setMode('reset');
-          }
+          }, 1500);
         } else if (mode === 'reset') {
           setMessage(data.message || 'Action successful!');
           setTimeout(() => setMode('login'), 2000);
@@ -159,16 +161,6 @@ const Loginform = ({ onLogin }) => {
           </button>
         </div>
       </form>
-
-      {resetToken && (
-        <div className="token-display">
-          <p className="token-label">OTP:</p>
-          <div className="token-box">{resetToken}</div>
-          <button className="auth-btn secondary" onClick={() => setMode('reset')}>
-            Enter OTP & Reset
-          </button>
-        </div>
-      )}
     </div>
   );
 
