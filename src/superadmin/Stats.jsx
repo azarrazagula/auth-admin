@@ -40,7 +40,7 @@ const Stats = () => {
       <div className="sa-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
         <h2>System Statistics</h2>
         <button className="sa-btn sa-btn-sm" style={{ width: 'auto' }} onClick={fetchStats}>
-           🔄 Refresh Stats
+          🔄 Refresh Stats
         </button>
       </div>
 

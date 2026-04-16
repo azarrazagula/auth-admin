@@ -5,7 +5,11 @@
   min-height: 100vh;
   background-color: #0f172a;
   padding: 1.5rem;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 .auth-card {
@@ -22,7 +26,7 @@
 }
 
 .auth-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -157,12 +161,6 @@
   margin-bottom: 2rem;
 }
 
-.mode-toggle {
-  margin-top: 2rem;
-  padding-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-}
-
 .debug-btn {
   background: none;
   border: none;
@@ -183,8 +181,14 @@
 }
 
 @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .token-label {

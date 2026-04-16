@@ -77,7 +77,8 @@ const Loginform = ({ onLogin }) => {
             setResetToken(data.otp);
             setMessage(`Instruction: Copy the OTP below and click "Enter OTP" to reset your password.`);
           } else {
-            setMessage(data.message || 'Action successful!');
+            setMessage(data.message || 'OTP sent successfully! Please enter it below.');
+            setMode('reset');
           }
         } else if (mode === 'reset') {
           setMessage(data.message || 'Action successful!');
@@ -252,10 +253,7 @@ const Loginform = ({ onLogin }) => {
         {mode === 'reset' && renderResetForm()}
 
         {mode !== 'reset' && (
-          <div className="mode-toggle">
-            <button onClick={() => setMode('reset')} className="debug-btn">
-              (Demo Reset Password Link)
-            </button>
+          <div>
             <div style={{ marginTop: '1rem', borderTop: '1px solid #eee', paddingTop: '1rem' }}>
               <button
                 onClick={() => window.location.search = '?portal=superadmin'}
