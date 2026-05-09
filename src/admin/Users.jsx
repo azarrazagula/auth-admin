@@ -6,6 +6,7 @@ import BillingDetails from './BillingDetails';
 import PaymentHistory from './PaymentHistory';
 import API_BASE_URL from '../config';
 import Button from '../components/common/Button';
+import ThemeToggle from '../components/ThemeToggle';
 
 const Users = ({ onLogout, user }) => {
   const [users, setUsers] = useState([]);
@@ -154,7 +155,15 @@ const Users = ({ onLogout, user }) => {
 
       <main className="main-content" style={{ padding: 0 }}>
         <header className="sa-main-header">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginLeft: 'auto' }}>
+          <div className="header-left" style={{ flex: 1 }}>
+            {/* Left aligned content if any */}
+          </div>
+
+          <div className="header-center">
+            <ThemeToggle />
+          </div>
+
+          <div className="header-right" style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '1.5rem' }}>
             {activeView === 'profiles' && (
               <div style={{ position: 'relative' }}>
                 <span style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', fontSize: '0.8rem' }}>🔍</span>
@@ -168,7 +177,7 @@ const Users = ({ onLogout, user }) => {
                   size="sm"
                   onClick={handleRefresh}
                   loading={loading && users.length > 0}
-                  style={{ background: 'rgba(255,255,255,0.05)', color: 'white', border: '1px solid var(--border-glass)' }}
+                  style={{ background: 'var(--bg-surface-light)', color: 'var(--text-main)', border: '1px solid var(--border-glass)' }}
                 >
                   🔄 Refresh
                 </Button>

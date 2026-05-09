@@ -1,0 +1,119 @@
+.theme-toggle-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.liquid-glass-toggle {
+  position: relative;
+  width: 130px;
+  height: 48px;
+  border-radius: 24px;
+  background: var(--bg-surface-light);
+  border: 1px solid var(--border-glass);
+  backdrop-filter: blur(15px);
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: var(--shadow-md);
+}
+
+.liquid-glass-toggle:hover {
+  box-shadow:
+    var(--shadow-lg),
+    0 0 15px var(--primary-glow);
+  transform: translateY(-1px);
+}
+
+.liquid-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.6;
+  filter: blur(12px);
+  transition: opacity 0.5s ease;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.orb.pink {
+  width: 60px;
+  height: 60px;
+  background: #ff359b;
+  top: -10px;
+  left: -10px;
+}
+
+.orb.yellow {
+  width: 50px;
+  height: 50px;
+  background: #fffd87;
+  bottom: -15px;
+  right: 10%;
+}
+
+.orb.blue {
+  width: 70px;
+  height: 70px;
+  background: #00d2ff;
+  top: 10%;
+  right: -20px;
+}
+
+/* Transitions for liquid effect */
+.dark .orb.pink {
+  transform: translate(50px, 0);
+}
+.dark .orb.yellow {
+  transform: translate(-40px, -10px);
+}
+.dark .orb.blue {
+  transform: translate(-60px, 10px);
+}
+
+.light .orb.pink {
+  transform: translate(0, 0);
+}
+.light .orb.yellow {
+  transform: translate(0, 0);
+}
+.light .orb.blue {
+  transform: translate(0, 0);
+}
+
+.dark .toggle-handle {
+  transform: translateX(82px);
+}
+
+.toggle-icon {
+  font-size: 1.2rem;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
+}
+
+.toggle-text {
+  position: absolute;
+  z-index: 1;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+  pointer-events: none;
+  transition: all 0.5s ease;
+  width: 100%;
+  text-align: center;
+  padding-left: 20px;
+}
+
+.dark .toggle-text {
+  padding-left: 0;
+  padding-right: 40px;
+}

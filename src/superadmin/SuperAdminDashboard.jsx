@@ -4,6 +4,7 @@ import AdminsList from './AdminsList';
 import UsersList from './UsersList';
 import Stats from './Stats';
 import AllPaymentHistory from './AllPaymentHistory';
+import ThemeToggle from '../components/ThemeToggle';
 
 const SuperAdminDashboard = ({ onLogout, user }) => {
   const [activeTab, setActiveTab] = useState('admins');
@@ -67,11 +68,19 @@ const SuperAdminDashboard = ({ onLogout, user }) => {
 
       <main className="sa-main">
         <header className="sa-main-header">
-          <div className="admin-profile-pill">
-            <div className="status-dot"></div>
-            <span className="admin-name">
-              {user?.firstName ? `${user.firstName} ${user.lastName || ''}` : (user?.name || 'SuperAdmin')}
-            </span>
+          <div className="header-left" style={{ flex: 1 }}>
+            {/* Left aligned content */}
+          </div>
+          <div className="header-center">
+            <ThemeToggle />
+          </div>
+          <div className="header-right" style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+            <div className="admin-profile-pill">
+              <div className="status-dot"></div>
+              <span className="admin-name">
+                {user?.firstName ? `${user.firstName} ${user.lastName || ''}` : (user?.name || 'SuperAdmin')}
+              </span>
+            </div>
           </div>
         </header>
         <div style={{ padding: '0 2rem' }}>

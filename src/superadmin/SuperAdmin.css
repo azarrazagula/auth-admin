@@ -99,7 +99,7 @@
 .sa-input {
   width: 100%;
   padding: 0.85rem 1.15rem;
-  background: rgba(15, 23, 42, 0.6);
+  background: var(--input-bg);
   border: 1px solid var(--border-glass);
   border-radius: 12px;
   color: white;
@@ -401,7 +401,7 @@
 
 .sa-table td {
   padding: 1.25rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--bg-surface-light);
   transition: var(--transition-normal);
 }
 
@@ -414,8 +414,8 @@
 }
 
 .sa-table tr:hover td {
-  background: rgba(255, 255, 255, 0.05);
-  color: white;
+  background: var(--bg-surface);
+  color: var(--text-main);
   transform: scale(1.005);
 }
 
